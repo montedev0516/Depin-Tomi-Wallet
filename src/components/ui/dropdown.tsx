@@ -36,7 +36,7 @@ const DropDown = () => {
     return (<Menu as="div" className="relative inline-block text-left">
         <div>
             <MenuButton className="inline-flex w-full justify-center gap-x-1.5 px-3 py-2 text-sm font-semibold text-gray-900 hover:cursor-pointer">
-                <Image src={SettingIcon} alt="" className="w-8 h-8" />
+                <Image src={SettingIcon} alt="" className="w-7 h-7" />
             </MenuButton>
         </div>
 

@@ -116,7 +116,7 @@ const WithDraw = () => {
                         <div className="gap-8 rounded-3xl">
                             <div><p className="md:text-lg text-xs text-white opacity-70 uppercase">Balance</p></div>
                             <div className="flex flex-row justify-between mt-2">
-                                <div className="text-3xl font-bold">0.00</div>
+                                <div className="md:text-3xl text-2xl font-bold">0.00</div>
                                 <div className="flex flex-row gap-2 items-center">
                                     <Image src={tomi_icon} alt="" className="w-5 h-5" />
                                     <p className="text-white opacity-70 text-sm">TOMI</p>
@@ -141,40 +141,39 @@ const WithDraw = () => {
                                 <DrawerTrigger asChild>
                                     <button className="w-full p-[auto] bg-[#FF0083] rounded-full md:h-[50px] h-[40px] md:text-xl text-xs">Withdraw</button>
                                 </DrawerTrigger>
-                                <DrawerContent className="flex justify-between items-center top-0 mt-0 md:ml-[60vw] ml-[20vw] rounded-t-none rounded-[10px] bg-[#171717] border border-zinc-600">
-                                        <div className="flex flex-col justify-between w-full px-8 flex-1">
-                                            <DrawerHeader className="flex flex-rows justify-between">
-                                                {/* <DrawerTitle>Are you absolutely sure?</DrawerTitle> */}
-                                                <DrawerDescription className="text-2xl text-white">Withdraw</DrawerDescription>
+                                <DrawerContent className="flex justify-between items-center top-0 mt-0 ml-[60vw] rounded-t-none rounded-[10px] bg-[#171717] border border-zinc-600">
+                                        <div className="flex flex-col justify-between w-full h-full p-1 flex-1">
+                                            <DrawerHeader className="flex flex-rows justify-between items-center">
+                                                <DrawerDescription className="md:text-2xl text-lg text-white">Withdraw</DrawerDescription>
                                                 <DrawerClose className="bg-black">
-                                                    <Button variant="outline" className="bg-zinc-900 border-none rounded-none hover:bg-zinc-900"><Image src={close_icon} alt="" /></Button>
+                                                    <Button variant="outline" className="bg-zinc-900 border-none rounded-none hover:bg-zinc-900 p-0"><Image src={close_icon} alt="close_button" className="h-6 w-6"/></Button>
                                                 </DrawerClose>
                                             </DrawerHeader> 
                                             <div className="flex flex-col gap-4 p-4">
                                                 <div className="flex flex-col gap-2">
-                                                    <p className="text-lg text-white opacity-70">Amount</p>
+                                                    <p className="md:text-lg text-sm text-white opacity-70">Amount</p>
                                                     <div className="flex flex-row gap-2 justify-between items-center">
-                                                        <div className="flex flex-row justify-between border-[1px] border-[#2E2E2E] rounded-xl bg-zinc-900 p-2 flex-[9]">
-                                                            <input className="bg-zinc-900 w-full outline-none" />
-                                                            <div className="px-4 py-2 flex flex-row items-center gap-2">
-                                                                <Image src={tomi_icon} alt="logo" className="w-3 h-3"></Image>
-                                                                <span className="text-sm">
+                                                        <div className="flex flex-row justify-between border-[1px] border-[#2E2E2E] rounded-lg bg-zinc-900 p-2 flex-[9]">
+                                                            <input className="bg-zinc-900 w-full outline-none"/>
+                                                            <div className="px-4 flex flex-row items-center gap-2">
+                                                                <Image src={tomi_icon} alt="logo" className="w-2 h-2"></Image>
+                                                                <span className="text-xs md:text-sm text-white opacity-70">
                                                                     TOMI
                                                                 </span>
                                                             </div>
                                                         </div>
-                                                        <div className="flex-[1]">MAX</div>
+                                                        <div className="flex-[1] text-sm">Max</div>
                                                     </div>
-                                                    <p className="text-lg text-white opacity-70">Balance 0 TOMI</p>
+                                                    <p className="md:text-lg text-sm text-white opacity-70">Balance 0 TOMI</p>
                                                 </div>
                                                 <div className="flex flex-col gap-2">
-                                                    <p className="text-lg text-white opacity-70">To</p>
-                                                    <input className="bg-zinc-900 border-[#2E2E2E] border-[1px] w-full p-4 rounded-xl" />
-                                                    <p className="text-lg text-white opacity-70 underline cursor-pointer">Paste from clipboard</p>
+                                                    <p className="md:text-lg text-sm text-white opacity-70">To</p>
+                                                    <input className="bg-zinc-900 border-[#2E2E2E] border-[1px] w-full p-2 rounded-lg" />
+                                                    <p className="md:text-lg text-sm text-white opacity-70 underline cursor-pointer">Paste from clipboard</p>
                                                 </div>
                                             </div>
                                             <DrawerFooter>
-                                                <Button variant="outline" className="px-20 py-4 bg-[#FF0083] rounded-full h-[50px] border-[#FF0083] border-[1px]" onClick={nextPage}>Proceed</Button>
+                                                <Button variant="outline" className="p-[auto] bg-[#FF0083] md:text-sm text-xs rounded-full h-[40px] border-[#FF0083] border-[1px]" onClick={nextPage}>Proceed</Button>
                                             </DrawerFooter>
                                         </div>
                                     
