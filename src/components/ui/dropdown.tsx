@@ -44,7 +44,7 @@ const DropDown = () => {
             transition
             className="absolute right-0 z-10 mt-2 w-80 origin-top-right rounded-xl shadow-lg ring-1 ring-black ring-opacity-5 transition focus:outline-none data-[closed]:scale-95 data-[closed]:transform data-[closed]:opacity-0 data-[enter]:duration-100 data-[leave]:duration-75 data-[enter]:ease-out data-[leave]:ease-in"
         >
-            <div className="p-5 bg-[#171717] border-2 border-zinc-800 text-white rounded-xl text-xs h-[50vh] flex flex-col justify-between">
+            <div className="md:p-5 p-3 bg-[#171717] border-2 border-zinc-800 text-white rounded-xl text-xs h-full flex flex-col justify-between">
                 <div className='px-4 text-sm font-medium text-white'>Controls</div>
                 <MenuItem>
                     <div
@@ -168,7 +168,7 @@ const DropDown = () => {
                         </span>
                     </div>
                 </MenuItem>
-                <div className='px-2'><hr className='bg-[#2E2E2E] border-[1.5px] border-[#2E2E2E]'></hr></div>
+                <div className='px-2'><hr className='bg-[#2E2E2E] border-[1.5px] border-[#2E2E2E] mx-4'></hr></div>
                 <MenuItem>
                     <div
                         className="flex flex-row gap-2 px-4 py-2 data-[focus]:bg-zinc-600 data-[focus]:text-gray-400 data-[focus]:rounded-xl"
