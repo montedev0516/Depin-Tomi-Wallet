@@ -26,8 +26,8 @@ const ConnectScan = () => {
                     <p className="text-sm md:text-xl text-[#BCBCBC]">At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praese.</p>
                 </div>
                 <div className="flex flex-row gap-4 flex-wrap justify-center">
-                    <button className="px-8 py-1 border-[1px] border-[#FF0083] rounded-[100px] font-bold md:text-2xl text-lg hover:bg-[#FF0083]" onClick={nextPage}>Start</button>
-                    <button className="px-8 py-1 border-[1px] border-[#FF0083] rounded-[100px] font-bold md:text-2xl text-lg hover:bg-[#FF0083]" onClick={nextPage}>Skip</button>
+                    <button className="px-8 py-1 border-[1px] border-[#FF0083] rounded-[100px] md:text-2xl text-lg hover:bg-[#FF0083]" onClick={nextPage}>Start</button>
+                    <button className="px-8 py-1 border-[1px] border-[#FF0083] rounded-[100px] md:text-2xl text-lg hover:bg-[#FF0083]" onClick={nextPage}>Skip</button>
                 </div>
             </div>
         </>
