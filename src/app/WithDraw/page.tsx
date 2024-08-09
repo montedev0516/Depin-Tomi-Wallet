@@ -51,12 +51,12 @@ const WithDraw = () => {
                                 <p className=" text-[#999999] md:text-lg text-xs">Disk space Remaining</p>
                                 <p className="md:text-3xl text-xl font-medium">49.5 TB</p>
                             </div>
-                            <div className="flex h-[40px]">
+                            <div className="flex h-10">
                                 <button className="px-7 py-2 border-[#FF0083] border-[1px] rounded-2xl text-sm hover:bg-[#FF0083]">Edit</button>
                             </div>
                         </div>
                         <div className="w-full">
-                            <progress value="60" max="100" className="w-full md:h-[20px] h-[10px]">70</progress>
+                            <progress value="60" max="100" className="w-full md:h-5 h-2">70</progress>
                         </div>
                     </div>
                     <div className="flex flex-row flex-1 justify-between bg-zinc-900 p-5 gap-2 md:rounded-3xl rounded-xl">

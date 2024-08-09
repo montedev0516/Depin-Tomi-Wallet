@@ -36,8 +36,7 @@ const SetStorage = () => {
                 </div>
 
                 <div className="flex flex-row text-center justify-center">
-                    <p className="text-3xl font-bold w-[100px]">{value} </p>
-                    <p className="text-3xl font-bold">TB</p>
+                    <p className="text-3xl font-bold text-left">{value}TB</p>
                 </div>
 
                 <div className="">
