@@ -42,13 +42,13 @@ const DropDown = () => {
 
         <MenuItems
             transition
-            className="absolute right-0 z-10 mt-2 w-80 origin-top-right rounded-xl shadow-lg ring-1 ring-black ring-opacity-5 transition focus:outline-none data-[closed]:scale-95 data-[closed]:transform data-[closed]:opacity-0 data-[enter]:duration-100 data-[leave]:duration-75 data-[enter]:ease-out data-[leave]:ease-in"
+            className="absolute right-0 z-10 mt-2 md:w-80 w-60 origin-top-right rounded-xl shadow-lg ring-1 ring-black ring-opacity-5 transition focus:outline-none data-[closed]:scale-95 data-[closed]:transform data-[closed]:opacity-0 data-[enter]:duration-100 data-[leave]:duration-75 data-[enter]:ease-out data-[leave]:ease-in"
         >
             <div className="md:p-5 p-3 bg-[#171717] border-2 border-zinc-800 text-white rounded-xl text-xs h-full flex flex-col justify-between">
-                <div className='px-4 text-sm font-medium text-white'>Controls</div>
+                <div className='p-2 text-sm font-medium text-white'>Controls</div>
                 <MenuItem>
                     <div
-                        className="flex flex-row justify-between gap-2 px-4 py-2 data-[focus]:bg-zinc-600 data-[focus]:text-gray-400 data-[focus]:rounded-xl"
+                        className="flex flex-row justify-between gap-2 p-2 data-[focus]:bg-zinc-600 data-[focus]:text-gray-400 data-[focus]:rounded-xl"
                     >
                         <Image src={PauseIcon} alt='pause Icon'></Image>
                         <span className='text-white text-opacity-70 '>
@@ -59,7 +59,7 @@ const DropDown = () => {
                 </MenuItem>
                 <MenuItem>
                     <div
-                        className="flex flex-row justify-between gap-2 px-4 py-2 data-[focus]:bg-zinc-600 data-[focus]:text-gray-400 data-[focus]:rounded-xl"
+                        className="flex flex-row justify-between gap-2 p-2 data-[focus]:bg-zinc-600 data-[focus]:text-gray-400 data-[focus]:rounded-xl"
                     >
                         <Image src={LockIcon} alt='pause Icon'></Image>
                         <span className='text-white text-opacity-70 '>
@@ -70,7 +70,7 @@ const DropDown = () => {
                 </MenuItem>
                 <MenuItem>
                     <div
-                        className="flex flex-row gap-2 px-4 py-2 data-[focus]:bg-zinc-600 data-[focus]:text-gray-400 data-[focus]:rounded-xl"
+                        className="flex flex-row gap-2 p-2 data-[focus]:bg-zinc-600 data-[focus]:text-gray-400 data-[focus]:rounded-xl"
                     >
                         <Image src={FolderIcon} alt='pause Icon'></Image>
                         <span className='text-white text-opacity-70 '>
@@ -82,7 +82,7 @@ const DropDown = () => {
                     <Drawer direction="right">
                         <DrawerTrigger asChild>
                             <div
-                                className="flex flex-row gap-2 px-4 py-2 data-[focus]:bg-zinc-600 data-[focus]:text-gray-400 data-[focus]:rounded-xl cursor-pointer">
+                                className="flex flex-row gap-2 p-2 data-[focus]:bg-zinc-600 data-[focus]:text-gray-400 data-[focus]:rounded-xl cursor-pointer">
                                 <Image src={DetailsIcon} alt='pause Icon'></Image>
                                 <span className="text-white text-opacity-70 ">Storage Details</span>
                             </div>
@@ -140,7 +140,7 @@ const DropDown = () => {
                 </MenuItem>
                 <MenuItem>
                     <div
-                        className="flex flex-row gap-2 px-4 py-2 data-[focus]:bg-zinc-600 data-[focus]:text-gray-400 data-[focus]:rounded-xl"
+                        className="flex flex-row gap-2 p-2 data-[focus]:bg-zinc-600 data-[focus]:text-gray-400 data-[focus]:rounded-xl"
                     >
                         <Image src={RemoveIcon} alt='pause Icon'></Image>
                         <span className='text-white text-opacity-70 '>
@@ -150,7 +150,7 @@ const DropDown = () => {
                 </MenuItem>
                 <MenuItem>
                     <div
-                        className="flex flex-row gap-2 px-4 py-2 data-[focus]:bg-zinc-600 data-[focus]:text-gray-400 data-[focus]:rounded-xl"
+                        className="flex flex-row gap-2 p-2 data-[focus]:bg-zinc-600 data-[focus]:text-gray-400 data-[focus]:rounded-xl"
                     >
                         <Image src={ReportIcon} alt='pause Icon'></Image>
                         <span className='text-white text-opacity-70 '>
@@ -160,7 +160,7 @@ const DropDown = () => {
                 </MenuItem>
                 <MenuItem>
                     <div
-                        className="flex flex-row gap-2 px-4 py-2 data-[focus]:bg-zinc-600 data-[focus]:text-gray-400 data-[focus]:rounded-xl"
+                        className="flex flex-row gap-2 p-2 data-[focus]:bg-zinc-600 data-[focus]:text-gray-400 data-[focus]:rounded-xl"
                     >
                         <Image src={EnergyIcon} alt='pause Icon'></Image>
                         <span className='text-white text-opacity-70 '>
@@ -168,12 +168,14 @@ const DropDown = () => {
                         </span>
                     </div>
                 </MenuItem>
-                <div className='px-2'><hr className='bg-[#2E2E2E] border-[1.5px] border-[#2E2E2E] mx-4'></hr></div>
+                <div className='m-2'><hr className='bg-[#2E2E2E] border-[1.5px] border-[#2E2E2E]'></hr></div>
                 <MenuItem>
                     <div
-                        className="flex flex-row gap-2 px-4 py-2 data-[focus]:bg-zinc-600 data-[focus]:text-gray-400 data-[focus]:rounded-xl"
+                        className="flex flex-row items-center gap-2 p-2 data-[focus]:bg-zinc-600 data-[focus]:text-gray-400 data-[focus]:rounded-xl"
                     >
-                        <Image src={SwitchIcon} alt='pause Icon'></Image>
+                        <div>
+                            <Image src={SwitchIcon} alt='pause Icon'></Image>
+                        </div>
                         <span className='text-white text-opacity-70 '>
                             Launch on startup
                         </span>
@@ -181,7 +183,7 @@ const DropDown = () => {
                 </MenuItem>
                 <MenuItem>
                     <div
-                        className="flex flex-row gap-2 px-4 py-2 data-[focus]:bg-zinc-600 data-[focus]:text-gray-400 data-[focus]:rounded-xl"
+                        className="flex flex-row gap-2 p-2 data-[focus]:bg-zinc-600 data-[focus]:text-gray-400 data-[focus]:rounded-xl"
                     >
                         <Image src={LogoutIcon} alt='pause Icon'></Image>
                         <span className='text-white text-opacity-70 '>
