@@ -1,15 +1,25 @@
-import { quantum } from 'ldrs'
+'use client'
+
+import { useEffect } from "react"
 
 const StartLogo = () => {
-    quantum.register()
+    useEffect(() => {
+
+        async function getLoader() {
+            const { quantum } = await import('ldrs')
+            quantum.register()
+        }
+        getLoader();
+    }, [])
+
     return (
         <l-quantum
-        size="45"
-        speed="1.75" 
-        color="#FF0083"
+            size="45"
+            speed="1.75"
+            color="#FF0083"
         ></l-quantum>
     )
-// Default values shown
+    // Default values shown
 }
 
 export default StartLogo;
