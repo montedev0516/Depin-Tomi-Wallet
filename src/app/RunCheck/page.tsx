@@ -1,12 +1,10 @@
 "use client"
 import Pic1 from "../../../public/favicon.ico"
 import Image from "next/image"
-
 import { useRouter } from "next/navigation"
 
-const ConnectScan = () => {
+const RunCheck = () => {
     const router = useRouter();
-
     const nextPage = () => {
         router.push('/checkData')
     }
@@ -34,4 +32,4 @@ const ConnectScan = () => {
     )
 }
 
-export default ConnectScan
+export default RunCheck;
