@@ -15,8 +15,8 @@ if (isProd) {
   await app.whenReady()
 
   const mainWindow = createWindow('main', {
-    width:700,
-    height:600,
+    width:1000,
+    height:900,
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
     },
@@ -36,6 +36,11 @@ if (isProd) {
 app.on('window-all-closed', () => {
   app.quit()
 })
+
+// window.addEventListener("resize",() => {
+//   console.log("----------")
+//   window.innerWidth = window.innerHeight * 1.1;
+// })
 
 ipcMain.on('message', async (event, arg) => {
   event.reply('message', `${arg} World!`)

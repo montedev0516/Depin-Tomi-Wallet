@@ -20,7 +20,13 @@ export const createWindow = (
   let state = {}
 
   const restore = () => store.get(key, defaultSize)
-
+  const setSize = () => {
+    const size = win.getSize();
+    const width = size[0];
+    const height = size[1];
+    win.setSize(height * 1.1, height)
+    
+  }
   const getCurrentPosition = () => {
     const position = win.getPosition()
     const size = win.getSize()
@@ -32,7 +38,7 @@ export const createWindow = (
     }
   }
 
-  const windowWithinBounds = (windowState, bounds) => {
+  const windowWithinBounds = (windowState:any, bounds:any) => {
     return (
       windowState.x >= bounds.x &&
       windowState.y >= bounds.y &&
@@ -49,7 +55,7 @@ export const createWindow = (
     })
   }
 
-  const ensureVisibleOnSomeDisplay = (windowState) => {
+  const ensureVisibleOnSomeDisplay = (windowState:any) => {
     const visible = screen.getAllDisplays().some((display) => {
       return windowWithinBounds(windowState, display.bounds)
     })
