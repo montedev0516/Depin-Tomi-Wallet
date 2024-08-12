@@ -1,8 +1,4 @@
 "use client"
-import Mobile from "../../assets/images/mobile.svg"
-import Scanner from "../../assets/images/scanner.svg"
-import Frame from "../../assets/images/Frame.png"
-import Image from "next/image"
 import StepperComponent from "@/components/ui/stepper"
 
 import { useRouter } from "next/navigation"
@@ -78,7 +74,6 @@ const checkData = () => {
                         Save
                     </button>
                 </div>
-                {/* () => nextStatus('info') */}
             </div>
         </>
     )
