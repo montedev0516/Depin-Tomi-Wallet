@@ -1,5 +1,4 @@
-'use client'
-import { useRouter } from "next/navigation";
+// import { useRouter } from "next/navigation";
 // import Pic1 from "../../public/favicon.ico";
 // import Pic2 from "../assets/images/image1.png"
 // import Image from "next/image";
@@ -7,10 +6,10 @@ import { useRouter } from "next/navigation";
 import StartLogo from "@/components/ui/StartLogo";
 
 export default function Page() {
-    const router = useRouter();
+    // const router = useRouter();
 
     const nextPage = () => {
-        router.push('/ConnectWallet')
+        // router.push('/ConnectWallet')
     }
     // const checkRAM = () => {
     //     console.log("-----> ", navigator)
