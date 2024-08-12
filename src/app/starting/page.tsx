@@ -39,7 +39,6 @@ const StartingPage = () => {
                     </div>
                 </div>
             </div>
-            {/* testing */}
         </>
     )
 };

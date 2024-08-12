@@ -1,7 +1,5 @@
 'use client'
 
-import sand_glass from "@/assets/images/sand-glass.png"
-import Image from "next/image"
 import { useRouter } from "next/navigation";
 
 const DeletePage = () => {
@@ -13,8 +11,8 @@ const DeletePage = () => {
     return (
         <div className="flex h-screen py-[25vh] px-[20vw] justify-center">
             <div className="flex flex-col text-center items-center justify-center md:gap-10 gap-10 bg-zinc-900 p-10 rounded-3xl">
-                <div>
-                    <Image src={sand_glass} alt="sand glass"/>
+                <div className="">
+                    <div className="hourglass w-[100%] h-[100%]"></div>
                 </div>
                 <div className="text-xs">
                     <p>Pleasde be aware that once deleted, you will no longer earn rewards on the data that has been removed.</p>
