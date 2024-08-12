@@ -1,13 +1,6 @@
 import "@/styles/globals.css"
 
 import { Inter } from "next/font/google"
-import Image from "next/image"
-import { ThirdwebProvider } from "thirdweb/react"
-
-import { TRPCReactProvider } from "@/trpc/react"
-import Header from "./_components/layout/Header"
-import Background from "@/assets/images/background.png"
-import Footer from "./_components/layout/Footer"
 
 const inter = Inter({
   subsets: ["latin"],
