@@ -1,10 +1,10 @@
-import Starting from "./starting/page";
+import StartingPage from "./starting/page";
 
 export default function Page() {
 
     return (
         <>
-            <Starting></Starting>
+            <StartingPage />
         </>
     )
 }
