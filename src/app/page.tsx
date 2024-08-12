@@ -7,7 +7,7 @@ import Image from "next/image";
 import { useEffect } from "react";
 import StartLogo from "@/components/ui/StartLogo";
 
-const BecomeProvider = () => {
+export default function Page() {
     const router = useRouter();
 
     const nextPage = () => {
@@ -43,5 +43,3 @@ const BecomeProvider = () => {
         </>
     )
 }
-
-export default BecomeProvider;
