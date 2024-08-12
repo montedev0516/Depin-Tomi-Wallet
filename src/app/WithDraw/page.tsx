@@ -1,6 +1,5 @@
 'use client'
 
-
 import Image from "next/image"
 import close_icon from "../../../public/images/close-circle.png"
 import tomi_icon from "../../../public/favicon.ico"
@@ -108,7 +107,6 @@ const WithDraw = () => {
                             <button className="border-[1px] border-[#FF0083] rounded-full px-4 py-1 text-xs">1.00x</button>
                         </div>
                     </div>
-
                 </div>
 
                 <div className="flex-[3] flex flex-col justify-between">
@@ -123,9 +121,7 @@ const WithDraw = () => {
                                 </div>
                             </div>
                         </div>
-
                         <div className="mt-6"><hr /></div>
-
                         <div className="flex flex-col gap-2 mt-2 pb-4">
                             <div className="flex flex-row justify-between">
                                 <div className="text-white md:text-xl text-sm">0.00</div>
@@ -176,7 +172,6 @@ const WithDraw = () => {
                                                 <Button variant="outline" className="p-[auto] bg-[#FF0083] md:text-sm text-xs rounded-full h-[40px] border-[#FF0083] border-[1px]" onClick={nextPage}>Proceed</Button>
                                             </DrawerFooter>
                                         </div>
-                                    
                                 </DrawerContent>
                             </Drawer>
                         </div>
