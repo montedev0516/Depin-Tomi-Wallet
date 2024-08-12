@@ -103,7 +103,7 @@ const WithDraw = () => {
                             </div>
                         </div>
                         <div className="flex flex-row justify-between items-center border-[1px] border-[#FF0083] rounded-full bg-zinc-900 p-1 px-2">
-                            <input className="bg-zinc-900 w-full outline-none placeholder:text-xl" placeholder="Device type: Grass lite node" />
+                            <input className="bg-zinc-900 w-full outline-none placeholder:text-xs" placeholder="Device type: Grass lite node" />
                             <button className="border-[1px] border-[#FF0083] rounded-full px-4 py-1 text-xs">1.00x</button>
                         </div>
                     </div>
