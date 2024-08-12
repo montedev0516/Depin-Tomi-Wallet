@@ -36,19 +36,19 @@ const DropDown = () => {
     return (<Menu as="div" className="relative inline-block text-left">
         <div>
             <MenuButton className="inline-flex w-full justify-center gap-x-1.5 px-3 py-2 text-sm font-semibold text-gray-900 hover:cursor-pointer">
-                <Image src={SettingIcon} alt="" className="w-8 h-8" />
+                <Image src={SettingIcon} alt="" className="w-7 h-7" />
             </MenuButton>
         </div>
 
         <MenuItems
             transition
-            className="absolute right-0 z-10 mt-2 w-80 origin-top-right rounded-xl shadow-lg ring-1 ring-black ring-opacity-5 transition focus:outline-none data-[closed]:scale-95 data-[closed]:transform data-[closed]:opacity-0 data-[enter]:duration-100 data-[leave]:duration-75 data-[enter]:ease-out data-[leave]:ease-in"
+            className="absolute right-0 z-10 mt-2 md:w-80 w-60 origin-top-right rounded-xl shadow-lg ring-1 ring-black ring-opacity-5 transition focus:outline-none data-[closed]:scale-95 data-[closed]:transform data-[closed]:opacity-0 data-[enter]:duration-100 data-[leave]:duration-75 data-[enter]:ease-out data-[leave]:ease-in"
         >
-            <div className="p-5 bg-[#171717] border-2 border-zinc-800 text-white rounded-xl text-xs h-[50vh] flex flex-col justify-between">
-                <div className='px-4 text-sm font-medium text-white'>Controls</div>
+            <div className="md:p-5 p-3 bg-[#171717] border-2 border-zinc-800 text-white rounded-xl text-xs h-full flex flex-col justify-between">
+                <div className='p-2 text-sm font-medium text-white'>Controls</div>
                 <MenuItem>
                     <div
-                        className="flex flex-row justify-between gap-2 px-4 py-2 data-[focus]:bg-zinc-600 data-[focus]:text-gray-400 data-[focus]:rounded-xl"
+                        className="flex flex-row justify-between gap-2 p-2 data-[focus]:bg-zinc-600 data-[focus]:text-gray-400 data-[focus]:rounded-xl"
                     >
                         <Image src={PauseIcon} alt='pause Icon'></Image>
                         <span className='text-white text-opacity-70 '>
@@ -59,7 +59,7 @@ const DropDown = () => {
                 </MenuItem>
                 <MenuItem>
                     <div
-                        className="flex flex-row justify-between gap-2 px-4 py-2 data-[focus]:bg-zinc-600 data-[focus]:text-gray-400 data-[focus]:rounded-xl"
+                        className="flex flex-row justify-between gap-2 p-2 data-[focus]:bg-zinc-600 data-[focus]:text-gray-400 data-[focus]:rounded-xl"
                     >
                         <Image src={LockIcon} alt='pause Icon'></Image>
                         <span className='text-white text-opacity-70 '>
@@ -70,7 +70,7 @@ const DropDown = () => {
                 </MenuItem>
                 <MenuItem>
                     <div
-                        className="flex flex-row gap-2 px-4 py-2 data-[focus]:bg-zinc-600 data-[focus]:text-gray-400 data-[focus]:rounded-xl"
+                        className="flex flex-row gap-2 p-2 data-[focus]:bg-zinc-600 data-[focus]:text-gray-400 data-[focus]:rounded-xl"
                     >
                         <Image src={FolderIcon} alt='pause Icon'></Image>
                         <span className='text-white text-opacity-70 '>
@@ -82,29 +82,30 @@ const DropDown = () => {
                     <Drawer direction="right">
                         <DrawerTrigger asChild>
                             <div
-                                className="flex flex-row gap-2 px-4 py-2 data-[focus]:bg-zinc-600 data-[focus]:text-gray-400 data-[focus]:rounded-xl cursor-pointer">
+                                className="flex flex-row gap-2 p-2 data-[focus]:bg-zinc-600 data-[focus]:text-gray-400 data-[focus]:rounded-xl cursor-pointer">
                                 <Image src={DetailsIcon} alt='pause Icon'></Image>
                                 <span className="text-white text-opacity-70 ">Storage Details</span>
                             </div>
                         </DrawerTrigger>
-                        <DrawerContent className="flex justify-between items-center top-0 mt-0 lg:ml-[70vw] sm:ml-[50vw] ml-[20vw] rounded-t-none rounded-[10px] bg-[#171717] border border-zinc-600">
-                            <div className="flex flex-col justify-between w-full lg:px-12 px-8 flex-1">
-                                <DrawerHeader className="flex flex-rows justify-between">
-                                    <DrawerDescription className="text-2xl text-white">Storage details</DrawerDescription>
+                        <DrawerContent className="flex justify-between items-center top-0 mt-0 lg:ml-[70vw] sm:ml-[60vw] ml-[20vw] rounded-t-none rounded-xl bg-[#171717] border border-zinc-600">
+                            <div className="flex flex-col justify-between w-full lg:px-12 px-3 flex-1">
+                                <DrawerHeader className="flex flex-rows justify-between items-center">
+                                    <DrawerDescription className="text-xl text-white">Storage details</DrawerDescription>
                                     <DrawerClose className="bg-zinc-900">
-                                        <Button variant="outline" className="bg-zinc-900 border-none rounded-none hover:bg-zinc-900"><Image src={close_icon} alt=""/></Button>
+                                        <Button variant="outline" className="bg-zinc-900 border-none rounded-none hover:bg-zinc-900"><Image src={close_icon} alt="close_icon"/></Button>
                                     </DrawerClose>
                                 </DrawerHeader>
                                 <div className="flex flex-col gap-4 p-4">
                                     <div>
-                                        <p>WD PC SN810 SDCPNRY-512G-1006</p>
-                                        <p className="text-white opacity-70">Drive</p>
+                                        <p className="text-xs">WD PC SN810 SDCPNRY-512G-1006</p>
+                                        <p className="text-xs text-white opacity-70">Drive</p>
                                     </div>
-                                    <div>
+                                    <div className='flex justify-center'>
                                         <div className="relative size-40">
                                             <svg className="size-full -rotate-90" viewBox="0 0 36 36" xmlns="http://www.w3.org/2000/svg">
                                                 <circle cx="18" cy="18" r="16" fill="none" className="stroke-current text-[#2B2D2F] dark:text-neutral-700" stroke-width="4"></circle>
                                                 <circle cx="18" cy="18" r="16" fill="none" className="stroke-current text-[#646566] dark:text-blue-500" stroke-width="2.5" stroke-dasharray="100" stroke-dashoffset="65" stroke-linecap=""></circle>
+                                                <circle cx="18" cy="18" r="16" fill="none" className="stroke-current text-[#FF0083] dark:text-red-600" stroke-width="2.5" stroke-dasharray="100" stroke-dashoffset="97" stroke-linecap=""></circle>
                                             </svg>
 
                                             <div className="absolute top-1/2 start-1/2 transform -translate-y-1/2 -translate-x-1/2 flex flex-col">
@@ -115,24 +116,24 @@ const DropDown = () => {
                                     </div>
                                     <div className="flex flex-col gap-4">
                                         <div className="flex flex-row gap-2 items-center">
-                                            <div className="flex w-4 h-4 border-[1px] border-[#FF0083] bg-[#FF0083] rounded-[5px] bg-opacity-50"></div>
-                                            <p className="text-white">Storage Limit</p>
-                                            <p className="text-white opacity-20">11 GB</p>
+                                            <div className="flex w-2 h-2 border-[1px] border-[#FF0083] bg-[#FF0083] rounded-[2px] bg-opacity-50"></div>
+                                            <p className="text-white text-xs">Storage Limit</p>
+                                            <p className="text-white opacity-20 text-sm">11 GB</p>
                                         </div>
                                         <div className="flex flex-row gap-2 items-center">
-                                            <div className="flex w-4 h-4 border-[1px] border-[#FF0083] bg-[#FF0083] rounded-[5px]"></div>
-                                            <p className="text-white">In Used </p>
-                                            <p className="text-white opacity-20">9.14 GB</p>
+                                            <div className="flex w-2 h-2 border-[1px] border-[#FF0083] bg-[#FF0083] rounded-[2px]"></div>
+                                            <p className="text-white text-xs">In Used </p>
+                                            <p className="text-white opacity-20 text-sm">9.14 GB</p>
                                         </div>
                                         <div className="flex flex-row gap-2 items-center">
-                                            <div className="flex w-4 h-4 border-none bg-zinc-700 rounded-[5px] bg-opacity-50"></div>
-                                            <p className="text-white">Max Limit </p>
-                                            <p className="text-white opacity-20">128.61 GB</p>
+                                            <div className="flex w-2 h-2 border-none bg-zinc-700 rounded-[2px] bg-opacity-50"></div>
+                                            <p className="text-white text-xs">Max Limit </p>
+                                            <p className="text-white opacity-20 text-sm">128.61 GB</p>
                                         </div>
                                     </div>
                                 </div>
                                 <DrawerFooter>
-                                    <Button variant="outline" className="px-20 py-4 bg-[#FF0083] rounded-full h-[50px] border-[#FF0083] border-[1px]" onClick={nextPage}>Edit storage limit</Button>
+                                    <Button variant="outline" className="px-20 bg-[#FF0083] rounded-full text-xs h-[40px] border-[#FF0083] border-[1px]" onClick={nextPage}>Edit storage limit</Button>
                                 </DrawerFooter>
                             </div>
                         </DrawerContent>
@@ -140,7 +141,7 @@ const DropDown = () => {
                 </MenuItem>
                 <MenuItem>
                     <div
-                        className="flex flex-row gap-2 px-4 py-2 data-[focus]:bg-zinc-600 data-[focus]:text-gray-400 data-[focus]:rounded-xl"
+                        className="flex flex-row gap-2 p-2 data-[focus]:bg-zinc-600 data-[focus]:text-gray-400 data-[focus]:rounded-xl"
                     >
                         <Image src={RemoveIcon} alt='pause Icon'></Image>
                         <span className='text-white text-opacity-70 '>
@@ -150,7 +151,7 @@ const DropDown = () => {
                 </MenuItem>
                 <MenuItem>
                     <div
-                        className="flex flex-row gap-2 px-4 py-2 data-[focus]:bg-zinc-600 data-[focus]:text-gray-400 data-[focus]:rounded-xl"
+                        className="flex flex-row gap-2 p-2 data-[focus]:bg-zinc-600 data-[focus]:text-gray-400 data-[focus]:rounded-xl"
                     >
                         <Image src={ReportIcon} alt='pause Icon'></Image>
                         <span className='text-white text-opacity-70 '>
@@ -160,7 +161,7 @@ const DropDown = () => {
                 </MenuItem>
                 <MenuItem>
                     <div
-                        className="flex flex-row gap-2 px-4 py-2 data-[focus]:bg-zinc-600 data-[focus]:text-gray-400 data-[focus]:rounded-xl"
+                        className="flex flex-row gap-2 p-2 data-[focus]:bg-zinc-600 data-[focus]:text-gray-400 data-[focus]:rounded-xl"
                     >
                         <Image src={EnergyIcon} alt='pause Icon'></Image>
                         <span className='text-white text-opacity-70 '>
@@ -168,12 +169,14 @@ const DropDown = () => {
                         </span>
                     </div>
                 </MenuItem>
-                <div className='px-2'><hr className='bg-[#2E2E2E] border-[1.5px] border-[#2E2E2E]'></hr></div>
+                <div className='m-2'><hr className='bg-[#2E2E2E] border-[1.5px] border-[#2E2E2E]'></hr></div>
                 <MenuItem>
                     <div
-                        className="flex flex-row gap-2 px-4 py-2 data-[focus]:bg-zinc-600 data-[focus]:text-gray-400 data-[focus]:rounded-xl"
+                        className="flex flex-row items-center gap-2 p-2 data-[focus]:bg-zinc-600 data-[focus]:text-gray-400 data-[focus]:rounded-xl"
                     >
-                        <Image src={SwitchIcon} alt='pause Icon'></Image>
+                        <div>
+                            <Image src={SwitchIcon} alt='pause Icon'></Image>
+                        </div>
                         <span className='text-white text-opacity-70 '>
                             Launch on startup
                         </span>
@@ -181,7 +184,7 @@ const DropDown = () => {
                 </MenuItem>
                 <MenuItem>
                     <div
-                        className="flex flex-row gap-2 px-4 py-2 data-[focus]:bg-zinc-600 data-[focus]:text-gray-400 data-[focus]:rounded-xl"
+                        className="flex flex-row gap-2 p-2 data-[focus]:bg-zinc-600 data-[focus]:text-gray-400 data-[focus]:rounded-xl"
                     >
                         <Image src={LogoutIcon} alt='pause Icon'></Image>
                         <span className='text-white text-opacity-70 '>
