@@ -1,3 +1,4 @@
+'use client'
 import { useRouter } from "next/navigation";
 // import Pic1 from "../../public/favicon.ico";
 // import Pic2 from "../assets/images/image1.png"
