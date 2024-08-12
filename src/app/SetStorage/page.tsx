@@ -33,6 +33,7 @@ const SetStorage = () => {
                         <p className="text-lg">100 TB</p>
                         <p>max limit</p>
                     </div>
+                    
                 </div>
 
                 <div className="flex flex-row text-center justify-center">
