@@ -1,7 +1,5 @@
 'use client'
 
-import sand_glass from "@/assets/images/sand-glass.png"
-import Image from "next/image"
 import { useRouter } from "next/navigation";
 
 const DeletePage = () => {
@@ -24,7 +22,6 @@ const DeletePage = () => {
                     <button className="py-3 px-7 border-[1px] border-[#FF0083] hover:bg-[#FF0083] rounded-full text-xs">Delete</button>
                 </div>
             </div>
-            
         </div>
     )
 }
