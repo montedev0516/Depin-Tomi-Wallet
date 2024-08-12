@@ -40,7 +40,7 @@ const checkData = () => {
                                 </svg>
 
                                 <div className="absolute top-1/2 start-1/2 transform -translate-y-1/2 -translate-x-1/2">
-                                    <span className="text-center text-[30px] font-bold text-white">25%</span>
+                                    <span className="text-center text-3xl font-bold text-white">25%</span>
                                 </div>
                             </div>
                         </div>
