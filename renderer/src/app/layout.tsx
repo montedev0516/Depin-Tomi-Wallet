@@ -15,7 +15,7 @@ const inter = Inter({
 })
 
 export const metadata = {
-  title: "Tomi Depin",
+  title: "Tomi-Depin-Node",
   description: "Tomi Depin",
   icons: [{ rel: "icon", url: "/favicon.ico" }],
 }
@@ -28,7 +28,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`font-sans ${inter.variable} bg-black text-white relative`}>
-            {children}
+        {children}
       </body>
     </html>
   )
