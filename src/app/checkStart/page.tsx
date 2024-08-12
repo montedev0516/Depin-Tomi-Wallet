@@ -6,7 +6,7 @@ import Image from "next/image"
 
 import { useRouter } from "next/navigation"
 
-const RunCheck = () => {
+const CheckStart = () => {
     const router = useRouter();
 
     const nextPage = () => {
@@ -36,4 +36,4 @@ const RunCheck = () => {
     )
 }
 
-export default RunCheck
+export default CheckStart;
