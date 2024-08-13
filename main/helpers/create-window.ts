@@ -78,7 +78,6 @@ export const createWindow = (
       ...options.webPreferences,
     },
   })
-  win.setFullScreenable(options.fullscreenable as boolean);
   win.on('close', saveState)
 
   return win
