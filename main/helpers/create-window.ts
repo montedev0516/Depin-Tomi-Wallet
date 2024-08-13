@@ -18,7 +18,6 @@ export const createWindow = (
     height: options.height,
   }
   let state = {}
-
   const restore = () => store.get(key, defaultSize)
 
   const getCurrentPosition = () => {
@@ -79,7 +78,7 @@ export const createWindow = (
       ...options.webPreferences,
     },
   })
-
+  win.setFullScreenable(options.fullscreenable as boolean);
   win.on('close', saveState)
 
   return win

@@ -20,6 +20,8 @@ if (isProd) {
     minWidth:1000,
     minHeight:900,
     center:true,
+    minimizable:false,
+    maximizable:false,
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
     },
