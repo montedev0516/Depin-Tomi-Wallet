@@ -8,7 +8,6 @@ import { TRPCReactProvider } from "@/trpc/react"
 import Header from "./_components/layout/Header"
 import Background from "@/assets/images/background.png"
 import Footer from "./_components/layout/Footer"
-
 const inter = Inter({
   subsets: ["latin"],
   variable: "--font-sans",
@@ -28,7 +27,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`font-sans ${inter.variable} bg-black text-white relative`}>
-        {children}
+        <ThirdwebProvider>
+          {children}
+        </ThirdwebProvider>
       </body>
     </html>
   )
