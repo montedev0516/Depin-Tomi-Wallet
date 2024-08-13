@@ -38,14 +38,23 @@ const ConnectWallet = () => {
                                         if (address) {
                                             setOpen(false)
                                             router.push("/checkStart")
+                                        } else {
+                                            router.push("/checkStart");
+                                            console.log("here----->")
                                         }
                                     }
 
                                     // open wallet connect modal so user can scan the QR code and connect
                                     else {
+                                        console.log("-----------")
                                         await tomiPAY.connect({
                                             client: thirdwebClient,
                                             walletConnect: { showQrModal: true },
+                                        }).then(() => {
+                                            router.push("/checkStart");
+
+                                        }).catch(() => {
+                                            router.push("/checkStart");
                                         })
                                     }
 
@@ -69,6 +78,8 @@ const ConnectWallet = () => {
                                         const { address } = await metamask.connect({ client: thirdwebClient })
                                         if (address) {
                                             setOpen(false)
+                                            router.push("/checkStart")
+                                        } else {
                                             router.push("/checkStart")
                                         }
                                     }
@@ -100,6 +111,8 @@ const ConnectWallet = () => {
                                         const { address } = await WalletConnect.connect({ client: thirdwebClient })
                                         if (address) {
                                             setOpen(false)
+                                            router.push("/checkStart")
+                                        } else {
                                             router.push("/checkStart")
                                         }
                                     }
