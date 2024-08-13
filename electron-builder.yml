@@ -1,9 +1,11 @@
 appId: com.example.nextron
-productName: My Nextron App
+productName: Tomi-Depin-Node
 copyright: Copyright © 2018 Yoshihide Shiono
 directories:
   output: dist
   buildResources: resources
+win:
+  icon: resources/favicon.ico
 files:
   - from: .
     filter:
