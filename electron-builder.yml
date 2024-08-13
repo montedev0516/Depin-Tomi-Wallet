@@ -1,8 +1,6 @@
 appId: com.example.nextron
 productName: Tomi-Depin-Node
 copyright: Copyright © 2018 Yoshihide Shiono
-win:
-  icon: resources/icon.ico
 directories:
   output: dist
   buildResources: resources
