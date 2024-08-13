@@ -25,7 +25,7 @@ if (isProd) {
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
     },
-    icon:"./resources/faviicon.ico"
+    // icon:"./faviicon.ico"
   })
 
   if (isProd) {
