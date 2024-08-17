@@ -26,10 +26,13 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`font-sans ${inter.variable} bg-black text-white relative`}>
-        <ThirdwebProvider>
-          {children}
-        </ThirdwebProvider>
+      <body className={`font-sans ${inter.variable} bg-transparent text-white relative`}>
+        <div className="bg-black rounded-2xl w-full h-full top-0 left-0 flex flex-col">
+          <ThirdwebProvider>
+            {children}
+          </ThirdwebProvider>
+        </div>
+
       </body>
     </html>
   )

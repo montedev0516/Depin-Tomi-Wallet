@@ -16,5 +16,6 @@ const handler = {
 }
 
 contextBridge.exposeInMainWorld('ipc', handler)
+contextBridge.exposeInMainWorld("minimize-me",handler)
 
 export type IpcHandler = typeof handler

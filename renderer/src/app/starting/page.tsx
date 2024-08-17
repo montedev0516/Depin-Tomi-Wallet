@@ -21,7 +21,7 @@ const StartingPage = () => {
     }, [])
     return (
         <>
-            <div className="flex flex-col items-center md:px-[12vw] px-[8vw] md:py-[12vh] py-[8vh] h-screen text-white" onClick={nextPage}>
+            <div className="flex flex-col items-center md:px-[12vw] px-[8vw] md:py-[12vh] py-[8vh] text-white" onClick={nextPage}>
                 <div className="flex flex-row gap-2 items-center">
                     <div>
                         <Image src={Pic1} alt="Icon" className="md:w-16 md:h-16 w-10 h-10"></Image>

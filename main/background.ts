@@ -2,6 +2,7 @@ import path from 'path'
 import { app, ipcMain } from 'electron'
 import serve from 'electron-serve'
 import { createWindow } from './helpers'
+import fs from 'fs-extra'
 
 const isProd = process.env.NODE_ENV === 'production'
 
@@ -15,18 +16,24 @@ if (isProd) {
   await app.whenReady()
 
   const mainWindow = createWindow('main', {
-    maxWidth:1000, 
-    maxHeight:900,
-    minWidth:1000,
-    minHeight:900,
+    width:1000, 
+    height:900,
+    resizable:false,
     center:true,
-    minimizable:false,
     maximizable:false,
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
+      nodeIntegration:true,
+      contextIsolation:true
     },
-    icon:"./resources/favicon.ico"
+    icon:"./resources/favicon.ico",
+    autoHideMenuBar:true,
+    frame:false,
+    transparent:true,
   })
+
+
+
 
   if (isProd) {
     await mainWindow.loadURL('app://./home')
@@ -35,7 +42,6 @@ if (isProd) {
     await mainWindow.loadURL(`http://localhost:${port}`)
     mainWindow.webContents.openDevTools()
   }
-  
 })()
 
 app.on('window-all-closed', () => {

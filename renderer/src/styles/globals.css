@@ -260,9 +260,9 @@ input[type="range"]:disabled::-webkit-slider-thumb {
 }
 
 body {
-    background: var(--bg);
-    display: grid;
+    /* display: grid; */
     height: 100vh;
+    box-sizing: border-box;
 }
 
 .hourglass,
@@ -376,4 +376,25 @@ body {
         --bg: #17181c;
         --fg: #FF0083;
     }
+}
+
+.container {
+    background: #0E0E0F;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    width: 100vw;
+    overflow: hidden;
+    -webkit-app-region: drag;
+}
+
+.titlebar {
+    background: #0E0E0F;
+    overflow: hidden;
+    -webkit-app-region: no-drag;
+}
+
+h1,
+h2,
+p {
+    user-select: none;
 }

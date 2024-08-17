@@ -10,13 +10,17 @@ export const createWindow = (
   windowName: string,
   options: BrowserWindowConstructorOptions
 ): BrowserWindow => {
+  require('@electron/remote/main').initialize()
   const key = 'window-state'
   const name = `window-state-${windowName}`
   const store = new Store<Rectangle>({ name })
   const defaultSize = {
     width: options.width,
     height: options.height,
-  }
+  };
+  (() => {
+    
+  })
   let state = {}
   const restore = () => store.get(key, defaultSize)
 
