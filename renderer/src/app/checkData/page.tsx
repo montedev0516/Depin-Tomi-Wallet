@@ -10,9 +10,18 @@ import { useEffect, useState } from "react"
 import { getGPUTier } from 'detect-gpu';
 // import { check } from "diskusage";
 // import * as si from 'systeminformation';
-import * as os from 'os';
+import { ipcRenderer } from "electron"
+import { string } from "zod"
 // import * as drivelist from 'drivelist';
 // const FastSpeedtest = require("fast-speedtest-api");
+interface ComData {
+    currentDate: string,
+    operatingSystem: string,
+    gpu: string,
+    hd: string,
+    networkSpeed: string,
+    networkType: string,
+}
 
 const checkData = () => {
     const [pageStatus, setPageStatus] = useState('gather');
@@ -106,7 +115,7 @@ const checkData = () => {
     //         console.error("An error occurred while getting GPU details:", error);
     //     }
     // };
-    const getData = async () => {
+    const getData = async (): Promise<ComData> => {
         const currentDate = new Date().toISOString().replace('T', ' ').substring(0, 19);
 
         let start = navigator.userAgent.indexOf('(');
@@ -127,15 +136,25 @@ const checkData = () => {
         // Extract the subnavigator.userAgenting between the parentheses
         let operatingSystem = navigator.userAgent.substring(start + 1, end); // Adding 1 to start to exclude the '(' itself
 
-        const gpu = (await getGPUTier()).gpu;
+        const gpu = (await getGPUTier()).gpu as string;
+        const getDataPromise = new Promise<{ hd: string; networkSpeed: string; networkType: string }>((resolve) => {
+            window.ipc.send("getData", true);
+            window.ipc.on('getData', (arg: any) => {
+                resolve({
+                    hd: arg.hd,
+                    networkSpeed: arg.cpu,
+                    networkType: arg.ram
+                })
+
+            })
+
+        })
+        const { hd, networkSpeed, networkType } = await getDataPromise
 
         // Convert bytes to gigabytes
-        var mbTotal = (((os.totalmem())/1048576) / 1024) / 1024;
-        var mbFree = ((os.freemem())/1048576) / 1024;
 
         // // Format the result to a string with 2 decimal places and append the unit
         // const ram = `${mbTotal.toFixed(2)} GB`;
-        console.log("hereRam---- ", mbTotal, mbFree, os.platform())
 
         // const drives = await drivelist.list();
         // console.log("99999999 ", drives)
@@ -152,11 +171,13 @@ const checkData = () => {
         //     console.log("cpu: ", data)
         // })
 
-        return { currentDate, operatingSystem, gpu};
+        return { currentDate, operatingSystem, gpu, hd, networkSpeed, networkType };
     }
 
     useEffect(() => {
-        const tmp = getData().then(data => {
+
+        getData().then(data => {
+            setGatherData(data);
             console.log("1111: ", data)
         });
         // const fetchGpuDetails = async () => {
@@ -208,12 +229,12 @@ const checkData = () => {
                                     <div>Location:</div>
                                 </div>
                                 <div className="flex flex-col text-left gap-1">
-                                    <div>Current Date/Time</div>
-                                    <div>Windows</div>
-                                    <div>RTX 4090</div>
-                                    <div>50TB</div>
-                                    <div>100GB/s</div>
-                                    <div>USA</div>
+                                    <div>{gatherData.currentDate}</div>
+                                    <div>{gatherData.operatingSystem}</div>
+                                    <div>{gatherData.gpu}</div>
+                                    <div>{gatherData.hd}</div>
+                                    <div>{gatherData.networkSpeed}</div>
+                                    <div>{gatherData.networkType}</div>
                                 </div>
                             </div>
                         </div>

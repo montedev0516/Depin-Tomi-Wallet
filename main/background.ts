@@ -2,7 +2,8 @@ import path from 'path'
 import { app, ipcMain } from 'electron'
 import serve from 'electron-serve'
 import { createWindow } from './helpers'
-import fs from 'fs-extra'
+import os from 'os'
+import sys from 'systeminformation'
 
 const isProd = process.env.NODE_ENV === 'production'
 
@@ -32,9 +33,6 @@ if (isProd) {
     transparent:true,
   })
 
-
-
-
   if (isProd) {
     await mainWindow.loadURL('app://./home')
   } else {
@@ -42,6 +40,23 @@ if (isProd) {
     await mainWindow.loadURL(`http://localhost:${port}`)
     mainWindow.webContents.openDevTools()
   }
+  ipcMain.on('minimize',(event,arg) => {
+    arg === true && mainWindow.minimize()
+  })
+  
+  // console.log('cpu:', `${os.cpus()[0].model} ${os.cpus().length}`,'\nram:',`${Math.ceil(os.totalmem() / 1024 / 1024 / 1024)}GB, hd:${hd}`)
+  ipcMain.on('getData', async (event, arg) => {
+    let hd;
+  await sys.diskLayout().then(async(data) => {
+    hd = String(Math.ceil(data[0].size / 1024 / 1024 / 1024 /1024) + "TB")
+  })
+  event.sender.send("getData", {
+      cpu: `${os.cpus()[0].model} ${os.cpus().length} Cores`,
+      ram: `${Math.ceil(os.totalmem() / 1024 / 1024 / 1024)}GB`,
+      hd: hd
+    })
+    
+  })
 })()
 
 app.on('window-all-closed', () => {
@@ -56,3 +71,8 @@ app.on('window-all-closed', () => {
 ipcMain.on('message', async (event, arg) => {
   event.reply('message', `${arg} World!`)
 })
+
+// ipcMain.on("getData",(event, arg) => {
+//   event.sender.send("getData",os.totalmem)
+// })
+
