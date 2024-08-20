@@ -92,7 +92,7 @@ const DropDown = () => {
                                 <DrawerHeader className="flex flex-rows justify-between items-center">
                                     <DrawerDescription className="text-xl text-white">Storage details</DrawerDescription>
                                     <DrawerClose className="bg-zinc-900">
-                                        <Button variant="outline" className="bg-zinc-900 border-none rounded-none hover:bg-zinc-900"><Image src={close_icon} alt="close_icon"/></Button>
+                                        <Button variant="outline" className="bg-zinc-900 border-none rounded-none hover:bg-zinc-900"><Image src={close_icon} alt="close_icon" /></Button>
                                     </DrawerClose>
                                 </DrawerHeader>
                                 <div className="flex flex-col gap-4 p-4">
@@ -103,9 +103,9 @@ const DropDown = () => {
                                     <div className='flex justify-center'>
                                         <div className="relative size-40">
                                             <svg className="size-full -rotate-90" viewBox="0 0 36 36" xmlns="http://www.w3.org/2000/svg">
-                                                <circle cx="18" cy="18" r="16" fill="none" className="stroke-current text-[#2B2D2F] dark:text-neutral-700" stroke-width="4"></circle>
-                                                <circle cx="18" cy="18" r="16" fill="none" className="stroke-current text-[#646566] dark:text-blue-500" stroke-width="2.5" stroke-dasharray="100" stroke-dashoffset="65" stroke-linecap=""></circle>
-                                                <circle cx="18" cy="18" r="16" fill="none" className="stroke-current text-[#FF0083] dark:text-red-600" stroke-width="2.5" stroke-dasharray="100" stroke-dashoffset="97" stroke-linecap=""></circle>
+                                                <circle cx="18" cy="18" r="16" fill="none" className="stroke-current text-[#2B2D2F] dark:text-neutral-700" strokeWidth="4"></circle>
+                                                <circle cx="18" cy="18" r="16" fill="none" className="stroke-current text-[#646566] dark:text-blue-500" strokeWidth="2.5" strokeDasharray="100" strokeDashoffset="65" stroke-linecap=""></circle>
+                                                <circle cx="18" cy="18" r="16" fill="none" className="stroke-current text-[#FF0083] dark:text-red-600" strokeWidth="2.5" strokeDasharray="100" strokeDashoffset="97" stroke-linecap=""></circle>
                                             </svg>
 
                                             <div className="absolute top-1/2 start-1/2 transform -translate-y-1/2 -translate-x-1/2 flex flex-col">

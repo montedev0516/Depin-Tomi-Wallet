@@ -1,7 +1,7 @@
 import { contextBridge, ipcRenderer, IpcRendererEvent } from 'electron'
 
 const handler = {
-  send(channel: string, value: unknown) {
+  send(channel: string, value?: unknown) {
     ipcRenderer.send(channel, value)
   },
   on(channel: string, callback: (...args: unknown[]) => void) {
@@ -16,6 +16,5 @@ const handler = {
 }
 
 contextBridge.exposeInMainWorld('ipc', handler)
-contextBridge.exposeInMainWorld("minimize-me",handler)
 
 export type IpcHandler = typeof handler
