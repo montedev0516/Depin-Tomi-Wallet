@@ -10,9 +10,9 @@ const ConnectScan = () => {
     const nextPage = () => {
         router.push('/checkData')
     }
-    return(
+    return (
         <>
-            <div className="flex flex-col items-center bg-black h-screen md:gap-12 gap-4 justify-center">
+            <div className="flex flex-col items-center bg-transparent h-screen md:gap-12 gap-4 justify-center">
                 <div className="flex flex-row gap-3 items-center">
                     <div>
                         <Image src={Pic1} alt="Icon" className="md:w-16 md:h-16 w-8 h-8"></Image>

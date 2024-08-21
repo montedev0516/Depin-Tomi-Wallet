@@ -21,7 +21,7 @@ const ConnectWallet = () => {
     }
     return (
         <>
-            <div className="flex items-center bg-black px-[10vw] py-[10vh] h-screen">
+            <div className="flex items-center bg-transparent px-[10vw] py-[10vh] h-screen">
                 <div className="w-full p-5 flex flex-col gap-7 ">
                     <div className="flex text-lg rounded-3xl items-center border-[2px] p-5 h-[12vh] border-white border-opacity-10">
                         <p className="text-center w-full font-bold md:text-2xl text-lg">Connect Your Wallet</p>

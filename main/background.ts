@@ -4,6 +4,9 @@ import serve from 'electron-serve'
 import { createWindow } from './helpers'
 import os from 'os'
 import sys from 'systeminformation'
+import {SuperfaceClient} from '@superfaceai/one-sdk'
+import PublicIP from 'public-ip'
+
 
 const isProd = process.env.NODE_ENV === 'production'
 
@@ -40,11 +43,12 @@ if (isProd) {
     await mainWindow.loadURL(`http://localhost:${port}`)
     mainWindow.webContents.openDevTools()
   }
+// ----------------------------------------------Minimize IPC--------------------------------------------
   ipcMain.on('minimize',(event,arg) => {
     arg === true && mainWindow.minimize()
   })
   
-  // console.log('cpu:', `${os.cpus()[0].model} ${os.cpus().length}`,'\nram:',`${Math.ceil(os.totalmem() / 1024 / 1024 / 1024)}GB, hd:${hd}`)
+  // --------------------------------------------Com Data IPC----------------------------------------------
   ipcMain.on('getData', async (event, arg) => {
     let hd;
   await sys.diskLayout().then(async(data) => {
@@ -57,22 +61,53 @@ if (isProd) {
     })
     
   })
+
+  // ------------------------------------------Net Information IPC-----------------------------------------
+  sys.networkStats()
+  let interval:any;
+  ipcMain.on('getNetInfo', async (event, arg) => {
+    if(arg === true){
+      sys.networkStats().then((data: any) => {
+        const downloadSpeed = (data[0].rx_sec / 1024).toFixed(2);
+        const uploadSpeed = (data[0].tx_sec / 1024).toFixed(2);
+        event.sender.send("getNetInfo", {
+          downloadSpeed:`${downloadSpeed} MB/s`,
+          uploadSpeed:`${uploadSpeed} MB/s`
+        })
+      })
+  }
+  else clearInterval(interval);
+  })
 })()
+
+// ----------------------------------------------Location IPC---------------------------------------------------
+
+ipcMain.on('getLocation', async(event, arg) => {
+  const sdk = new SuperfaceClient();
+  const profile =  await sdk.getProfile("address/ip-geolocation@1.0.1");
+  const networkInterface:any = await sys.networkInterfaces()
+  const ipAddress = networkInterface[0].ip4;
+  const result:any = await profile.getUseCase("IpGeolocation").perform(
+      {
+        ipAddress: "45.250.255.140"
+      },
+      {
+        provider: "ipdata",
+        security: {
+          apikey: {
+            apikey: "9a511b6fc8334e1852cfbbd4ff3f1af3c42ed6abc75e96a1648b969a"
+          }
+        }
+      }
+    ).then((data) => data.unwrap());
+    event.sender.send("getLocation", result.addressCountry)
+});
+
 
 app.on('window-all-closed', () => {
   app.quit()
 })
 
-// window.addEventListener("resize",() => {
-//   console.log("----------")
-//   window.innerWidth = window.innerHeight * 1.1;
-// })
-
 ipcMain.on('message', async (event, arg) => {
   event.reply('message', `${arg} World!`)
 })
-
-// ipcMain.on("getData",(event, arg) => {
-//   event.sender.send("getData",os.totalmem)
-// })
-

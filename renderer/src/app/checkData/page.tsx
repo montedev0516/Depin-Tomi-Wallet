@@ -8,6 +8,7 @@ import StepperComponent from "@/components/ui/stepper"
 import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
 import { getGPUTier } from 'detect-gpu';
+import gsap from 'gsap'
 // import { check } from "diskusage";
 // import * as si from 'systeminformation';
 import { ipcRenderer } from "electron"
@@ -17,8 +18,10 @@ import { string } from "zod"
 interface ComData {
     currentDate: string,
     operatingSystem: string,
-    gpu: string,
+    cpu: string,
+    ram: string,
     hd: string,
+    gpu: string,
     networkSpeed: string,
     networkType: string,
 }
@@ -28,11 +31,15 @@ const checkData = () => {
     const [gatherData, setGatherData] = useState({
         currentDate: '',
         operatingSystem: '',
-        gpu: '',
+        cpu: '',
+        ram: '',
         hd: '',
+        gpu: '',
         networkSpeed: '',
-        networkType: '',
+        location: ''
     })
+
+    let progress = 0;
 
     const router = useRouter();
 
@@ -115,81 +122,111 @@ const checkData = () => {
     //         console.error("An error occurred while getting GPU details:", error);
     //     }
     // };
-    const getData = async (): Promise<ComData> => {
+    const getCurrentDate = async () => {
         const currentDate = new Date().toISOString().replace('T', ' ').substring(0, 19);
-
+        setGatherData(data => ({ ...data, currentDate: currentDate }))
+        updateProgressBar(12.5);
+        return true
+    }
+    const getOperatingSystem = async () => {
         let start = navigator.userAgent.indexOf('(');
-
-        // if (start === -1) {
-        //     console.log("No opening parenthesis found.");
-        //     return;
-        // }
-
-        // Find the index of the last ')'
         let end = navigator.userAgent.indexOf(')');
 
-        // if (end === -1 || end <= start) {
-        //     console.log("No closing parenthesis found or it comes before the opening one.");
-        //     return;
-        // }
-
-        // Extract the subnavigator.userAgenting between the parentheses
         let operatingSystem = navigator.userAgent.substring(start + 1, end); // Adding 1 to start to exclude the '(' itself
-
-        const gpu = (await getGPUTier()).gpu as string;
-        const getDataPromise = new Promise<{ hd: string; networkSpeed: string; networkType: string }>((resolve) => {
+        setGatherData(data => ({ ...data, operatingSystem: operatingSystem }))
+        updateProgressBar(12.5);
+        return true
+    }
+    const getDataInfo = async () => {
+        const getDataPromise = new Promise<{ hd: string; cpu: string; ram: string }>((resolve) => {
             window.ipc.send("getData", true);
             window.ipc.on('getData', (arg: any) => {
                 resolve({
                     hd: arg.hd,
-                    networkSpeed: arg.cpu,
-                    networkType: arg.ram
+                    cpu: arg.cpu,
+                    ram: arg.ram
                 })
-
             })
-
         })
-        const { hd, networkSpeed, networkType } = await getDataPromise
-
-        // Convert bytes to gigabytes
-
-        // // Format the result to a string with 2 decimal places and append the unit
-        // const ram = `${mbTotal.toFixed(2)} GB`;
-
-        // const drives = await drivelist.list();
-        // console.log("99999999 ", drives)
-
-        // const diskUsageHD = check("").then(((data:any) => {
-        //     console.log("here: ", data)
-        // }));
-        // const tmp = si.system().then((data) => {
-        //     console.log("here--------- ", data);
-        // })
-
-        // const networkSpeed = await calculateNetworkSpeed();
-        // si.cpu().then((data: any) => {
-        //     console.log("cpu: ", data)
-        // })
-
-        return { currentDate, operatingSystem, gpu, hd, networkSpeed, networkType };
+        const { hd, cpu, ram } = await getDataPromise
+        setGatherData(data => ({ ...data, hd: hd, cpu: cpu, ram: ram }))
+        updateProgressBar(12.5 * 3);
+        return true
     }
 
-    useEffect(() => {
+    const getGpuInfo = async () => {
+        const gpu = (await getGPUTier()).gpu as string;
+        setGatherData(data => ({ ...data, gpu: gpu }))
+        updateProgressBar(12.5)
+    }
 
-        getData().then(data => {
-            setGatherData(data);
-            console.log("1111: ", data)
+    const getNetInfo = async () => {
+        const getDataPromise = new Promise<{ downloadSpeed: string, uploadSpeed: string }>((resolve) => {
+            window.ipc.send("getNetInfo", true);
+            window.ipc.on('getNetInfo', (arg: any) => {
+                console.log("firstNet", arg)
+                resolve({
+                    downloadSpeed: arg.downloadSpeed,
+                    uploadSpeed: arg.uploadSpeed
+                })
+            })
+        })
+        const { downloadSpeed, uploadSpeed } = await getDataPromise
+        setGatherData(data => ({ ...data, networkSpeed: `Download: ${downloadSpeed} Upload: ${uploadSpeed}` }))
+
+        progress !== 100 && updateProgressBar(12.5);
+        return true
+    }
+
+    const getLocation = async () => {
+        const getLocationPromise = new Promise<{ location: string }>((resolve) => {
+            window.ipc.send("getLocation", true);
+            window.ipc.on('getLocation', (arg: any) => {
+                resolve({
+                    location: arg
+                })
+            })
+        })
+        const { location } = await getLocationPromise;
+        setGatherData(data => ({ ...data, location: location }))
+        updateProgressBar(12.5);
+    }
+
+    const updateProgressBar = async (addition: number) => {
+        const progressBar = document.getElementById("progressBar");
+        let value = 0;
+        if (progressBar instanceof SVGElement) {
+            (progressBar.style as CSSStyleDeclaration).strokeDashoffset = (100 - (progress + addition)).toString();
+        }
+        const progressText = document.getElementById("progressText");
+        gsap.fromTo(progressText, {
+            textContent: progress,
+        }, {
+            textContent: progress + addition,
+            duration: 2.5,
+            ease: "power1.inout",
+            snap: { textContent: 1 },
         });
-        // const fetchGpuDetails = async () => {
-        //     const gpuTier = await getGPUTier();
-        //     console.log("-------- ", gpuTier);
-        // };
-
+        progress += addition;
+        if (progress === 100) setTimeout(() => setPageStatus('info'), 4000)
+    }
+    const getComDatas = async () => {
+        const steps = [getCurrentDate, getOperatingSystem, getDataInfo, getGpuInfo, getNetInfo, getLocation]
+        for (const step of steps) {
+            if (await step()) {
+                continue;
+            }
+        }
+        window.ipc.send("getNetInfo", false);
+    }
+    useEffect(() => {
+        getComDatas()
     }, [])
+
 
     return (
         <>
-            <div className="flex flex-col justify-center px-[10vw] bg-black h-screen">
+            <div className="flex flex-col justify-center px-[10vw] bg-transparent h-screen">
                 <div className="flex text-lg border-zinc-600 rounded-xl items-center border-[1px] p-5 w-full">
                     <p className="text-center w-full font-bold text-lg md:text-2xl">Compability Check</p>
                 </div>
@@ -204,13 +241,13 @@ const checkData = () => {
                             </div>
                             <div className="mt-4">
                                 <div className="relative size-40">
-                                    <svg className="size-full -rotate-90" viewBox="0 0 36 36" xmlns="http://www.w3.org/2000/svg">
+                                    <svg className="size-full -rotate-90 " viewBox="0 0 36 36" xmlns="http://www.w3.org/2000/svg">
                                         <circle cx="18" cy="18" r="16" fill="none" className="stroke-current text-[#4A0026] dark:text-neutral-700" strokeWidth="2"></circle>
-                                        <circle cx="18" cy="18" r="16" fill="none" className="stroke-current text-[#FF0083] dark:text-blue-500" strokeWidth="2" strokeDasharray="100" strokeDashoffset="75" strokeLinecap="round"></circle>
+                                        <circle id='progressBar' cx="18" cy="18" r="16" fill="none" className="stroke-current text-[#FF0083] dark:text-blue-500 transition-all duration-1500 ease-in-out" strokeWidth="2" strokeDasharray="100" strokeDashoffset='100' strokeLinecap="round"></circle>
                                     </svg>
 
                                     <div className="absolute top-1/2 start-1/2 transform -translate-y-1/2 -translate-x-1/2">
-                                        <span className="text-center text-[30px] font-bold text-white">25%</span>
+                                        <span className="text-center text-[30px] font-bold text-white after:content-['%'] after:w-16 after:text-[30px] after:text-white" id='progressText'>0</span>
                                     </div>
                                 </div>
                             </div>
@@ -223,18 +260,22 @@ const checkData = () => {
                                 <div className="flex flex-col text-right gap-1">
                                     <div>Current Date/Time:</div>
                                     <div>Operating System:</div>
-                                    <div>GPU:</div>
+                                    <div>CPU:</div>
+                                    <div>RAM:</div>
                                     <div>HD/SSD:</div>
+                                    <div>GPU:</div>
                                     <div>Network Speed:</div>
                                     <div>Location:</div>
                                 </div>
                                 <div className="flex flex-col text-left gap-1">
                                     <div>{gatherData.currentDate}</div>
                                     <div>{gatherData.operatingSystem}</div>
-                                    <div>{gatherData.gpu}</div>
+                                    <div>{gatherData.cpu}</div>
+                                    <div>{gatherData.ram}</div>
                                     <div>{gatherData.hd}</div>
+                                    <div>{gatherData.gpu}</div>
                                     <div>{gatherData.networkSpeed}</div>
-                                    <div>{gatherData.networkType}</div>
+                                    <div>{gatherData.location}</div>
                                 </div>
                             </div>
                         </div>
@@ -245,7 +286,7 @@ const checkData = () => {
                     </button>
                 </div>
                 {/* () => nextStatus('info') */}
-            </div>
+            </div >
         </>
     )
 }

@@ -398,3 +398,44 @@ h2,
 p {
     user-select: none;
 }
+
+#progressText {
+    content: counter(count);
+    animation: counter 1s linear infinite alternate;
+}
+
+@keyframes counter {
+    0% {
+        counter-increment: count 0;
+    }
+    10% {
+        counter-increment: count 1;
+    }
+    20% {
+        counter-increment: count 2;
+    }
+    30% {
+        counter-increment: count 3;
+    }
+    40% {
+        counter-increment: count 4;
+    }
+    50% {
+        counter-increment: count 5;
+    }
+    60% {
+        counter-increment: count 6;
+    }
+    70% {
+        counter-increment: count 7;
+    }
+    80% {
+        counter-increment: count 8;
+    }
+    90% {
+        counter-increment: count 9;
+    }
+    100% {
+        counter-increment: count 10;
+    }
+}
