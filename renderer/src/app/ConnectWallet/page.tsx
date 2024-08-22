@@ -41,6 +41,8 @@ const ConnectWallet = () => {
         return () => window.removeEventListener('resize', handleResize);
     }, []);
 
+
+
     const wallets = [
         createWallet("io.metamask"),
         createWallet("com.tomi"),
@@ -67,6 +69,14 @@ const ConnectWallet = () => {
     });
 
     console.log("here ", !tokenData)
+    useEffect(() => {
+        // if (address && tokenData?.displayValue !== undefined) {
+        //     router.replace(`tomidepin://localhost:8888/callback?address=${address}?amount=${tokenData.displayValue}?symbol=${tokenData.symbol}`)
+        // }
+        if (address) {
+            router.replace(`tomidepin://localhost:8888/RunCheck/callback?address=${address}?amount=${tokenData?.displayValue}?symbol=${tokenData?.symbol}`)
+        }
+    }, [address, tokenData])
     return (
         <>
             <div className="flex items-center bg-black px-[10vw] py-[10vh] h-screen">

@@ -17,4 +17,16 @@ const handler = {
 
 contextBridge.exposeInMainWorld('ipc', handler)
 
+contextBridge.exposeInMainWorld('walletConnect', {
+  ipcRenderer: {
+      invoke: (channel : any, ...args: any) => ipcRenderer.invoke(channel, ...args),
+      on: (channel : any, listener : any) => ipcRenderer.on(channel, listener),
+      // Add other methods as needed
+    },
+  openURL: (url: string) => {
+      ipcRenderer.invoke('open-external-browser-url', url);
+  },
+  receiveCode: (handler : any) => ipcRenderer.on('receiveCode', (event, ...args) => handler(...args)),
+});
+
 export type IpcHandler = typeof handler
