@@ -39,9 +39,7 @@ const RunCheck = () => {
                     </div>
                 </div>
                 <div onClick={nextPage}>
-<<<<<<< HEAD:renderer/src/app/checkStart/page.tsx
                     <Image src={Frame} alt="" className="w-[320px] md:w-[400px]" />
-=======
                     {
                         walletType === "metamask" ?
                             <Image src={MetamaskQR} alt="meatmaskQR" className="w-[320px] md:w-[400px] rounded-xl" />
@@ -54,7 +52,6 @@ const RunCheck = () => {
                     <Link href={"https://chrome.google.com/webstore/detail/metamask/nkbihfbeogaeaoehlefnkodbefgpgknn"} target="_blank">
                         Download Chrome Extension
                     </Link>
->>>>>>> dcdab11a77f8f6be3315339979887b87e87cb464:renderer/src/app/installWallet/page.tsx
                 </div>
             </div>
         </>

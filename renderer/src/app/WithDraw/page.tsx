@@ -25,6 +25,23 @@ import { useState } from "react"
 
 const WithDraw = () => {
     const router = useRouter();
+    const [deviceData, setDeviceData] = useState(
+        {
+            walletAddress: localStorage.getItem("address"), // 0x5445....
+            amount: localStorage.getItem("amount") === "undefined" ? "0.00" : localStorage.getItem("amount"),
+            totalHd: parseFloat(localStorage.getItem("totalHd") as string), //unit: TB
+            remainHd: parseFloat(localStorage.getItem("remainHd") as string),  //unit TB
+            cpu: localStorage.getItem("cpu"),
+            gpu: localStorage.getItem("gpu"),
+            netConnected: navigator.onLine
+        }
+    )
+    // const truncate = (str: string): string => {
+    //     let result;
+    //     result = str.slice(0, 10) + "..." + str.slice(str.length - 4, str.length - 1);
+    //     return result;
+    // }
+    // const selections = document.getElementById("walletSelect");
 
     const nextPage = () => {
         router.push('/DeletePage')
@@ -35,8 +52,8 @@ const WithDraw = () => {
             <div className="flex flex-row justify-between items-center">
                 <button className="flex flex-row items-center align-middle border-2 border-zinc-900 px-5 md:rounded-2xl rounded-xl">
                     <Image src={UserAvatar} alt="userAvatar" className="w-6 h-6"></Image>
-                    <select className="text-[#999999] bg-black md:rounded-xl md:p-4 p-3 md:w-[200px] w-[140px] md:text-xl text-sm focus:outline-none">
-                        <option>0x81504...320</option>
+                    <select className="text-[#999999] bg-black md:rounded-xl md:p-4 p-3 md:w-[200px] w-[140px] md:text-xl text-sm focus:outline-none overflow-ellipsis" id='walletSelect'>
+                        <option>{deviceData.walletAddress}</option>
                     </select>
                 </button>
                 <div className="flex justify-end h-[70px] items-center">
@@ -49,23 +66,27 @@ const WithDraw = () => {
                         <div className="flex flex-row justify-between">
                             <div className="flex flex-col gap-2">
                                 <p className=" text-[#999999] md:text-lg text-xs">Disk space Remaining</p>
-                                <p className="md:text-3xl text-xl font-medium">49.5 TB</p>
+                                <p className="md:text-3xl text-xl font-medium">
+                                    {deviceData.remainHd >= 1
+                                        ? `${deviceData.remainHd}TB`
+                                        : `${Math.round(deviceData.remainHd * 1024)}GB`}</p>
                             </div>
                             <div className="flex h-10">
                                 <button className="px-7 py-2 border-[#FF0083] border-[1px] rounded-2xl text-sm hover:bg-[#FF0083]">Edit</button>
                             </div>
                         </div>
                         <div className="w-full">
-                            <progress value="60" max="100" className="w-full md:h-5 h-2">70</progress>
+                            <progress value={deviceData.remainHd} max={deviceData.totalHd} className="w-full md:h-5 h-2"></progress>
                         </div>
                     </div>
-                    <div className="flex flex-row flex-1 justify-between bg-zinc-900 p-5 gap-2 md:rounded-3xl rounded-xl">
-                        <div className="flex flex-col justify-between md:gap-4">
+                    <div className="flex flex-col flex-1 justify-between bg-zinc-900 p-5 gap-2 md:rounded-3xl rounded-xl">
+                        <div className="flex flex-row justify-between md:gap-4">
                             <p className=" text-[#999999] md:text-lg text-xs">CPU</p>
-                            <p className=" md:text-3xl text-xl font-medium">Core i7 11500K</p>
-                        </div>
-                        <div className="flex flex-col justify-between md:gap-4">
                             <p className=" text-[#999999]  md:text-lg text-xs">Donate your CPU</p>
+
+                        </div>
+                        <div className="flex flex-row justify-between md:gap-4 items-center">
+                            <p className=" md:text-xl font-medium">{deviceData.cpu}</p>
                             <div className="flex justify-end">
                                 <label className="switch items-end">
                                     <input type="checkbox" />
@@ -77,10 +98,10 @@ const WithDraw = () => {
                     <div className="flex flex-row flex-1 justify-between bg-zinc-900 p-5 gap-2 md:rounded-3xl rounded-xl">
                         <div className="flex flex-col justify-between md:gap-4">
                             <p className=" text-[#999999]  md:text-lg text-xs">GPU</p>
-                            <p className=" md:text-3xl text-xl font-medium">RTX 4090</p>
+                            <p className=" md:text-3xl text-xl font-medium capitalize">{deviceData.gpu}</p>
                         </div>
                         <div className="flex flex-col justify-between md:gap-4">
-                            <p className=" text-[#999999]  md:text-lg text-xs">Donate your CPU</p>
+                            <p className=" text-[#999999]  md:text-lg text-xs">Donate your GPU</p>
                             <div className="flex justify-end">
                                 <label className="switch items-end">
                                     <input type="checkbox" />
@@ -99,7 +120,7 @@ const WithDraw = () => {
                                 <Image src={Wifi} alt="wifi"></Image>
                                 <button className="flex flex-row gap-2 items-center border border-[#FF0083] md:px-6 px-3 rounded-full">
                                     <Image src={Connected} alt="connected" className="w-2 h-2"></Image>
-                                    <span className="md:text-sm text-xs">Connected</span>
+                                    <span className="md:text-sm text-xs">{deviceData.netConnected ? "Connected" : "Disconnected"}</span>
                                 </button>
                             </div>
                         </div>
@@ -116,7 +137,7 @@ const WithDraw = () => {
                         <div className="gap-8 rounded-3xl">
                             <div><p className="md:text-lg text-xs text-white opacity-70 uppercase">Balance</p></div>
                             <div className="flex flex-row justify-between mt-2">
-                                <div className="md:text-3xl text-2xl font-bold">0.00</div>
+                                <div className="md:text-3xl text-2xl font-bold">{deviceData.amount}</div>
                                 <div className="flex flex-row gap-2 items-center">
                                     <Image src={tomi_icon} alt="" className="w-5 h-5" />
                                     <p className="text-white opacity-70 text-sm">TOMI</p>
@@ -142,41 +163,41 @@ const WithDraw = () => {
                                     <button className="w-full p-[auto] bg-[#FF0083] rounded-full md:h-[50px] h-[40px] md:text-xl text-xs">Withdraw</button>
                                 </DrawerTrigger>
                                 <DrawerContent className="flex justify-between items-center top-0 mt-0 ml-[60vw] rounded-t-none rounded-[10px] bg-[#171717] border border-zinc-600">
-                                        <div className="flex flex-col justify-between w-full h-full p-1 flex-1">
-                                            <DrawerHeader className="flex flex-rows justify-between items-center">
-                                                <DrawerDescription className="md:text-2xl text-lg text-white">Withdraw</DrawerDescription>
-                                                <DrawerClose className="bg-black">
-                                                    <Button variant="outline" className="bg-zinc-900 border-none rounded-none hover:bg-zinc-900 p-0"><Image src={close_icon} alt="close_button" className="h-6 w-6"/></Button>
-                                                </DrawerClose>
-                                            </DrawerHeader> 
-                                            <div className="flex flex-col gap-4 p-4">
-                                                <div className="flex flex-col gap-2">
-                                                    <p className="md:text-lg text-sm text-white opacity-70">Amount</p>
-                                                    <div className="flex flex-row gap-2 justify-between items-center">
-                                                        <div className="flex flex-row justify-between border-[1px] border-[#2E2E2E] rounded-lg bg-zinc-900 p-2 flex-[9]">
-                                                            <input className="bg-zinc-900 w-full outline-none"/>
-                                                            <div className="px-4 flex flex-row items-center gap-2">
-                                                                <Image src={tomi_icon} alt="logo" className="w-2 h-2"></Image>
-                                                                <span className="text-xs md:text-sm text-white opacity-70">
-                                                                    TOMI
-                                                                </span>
-                                                            </div>
+                                    <div className="flex flex-col justify-between w-full h-full p-1 flex-1">
+                                        <DrawerHeader className="flex flex-rows justify-between items-center">
+                                            <DrawerDescription className="md:text-2xl text-lg text-white">Withdraw</DrawerDescription>
+                                            <DrawerClose className="bg-black">
+                                                <Button variant="outline" className="bg-zinc-900 border-none rounded-none hover:bg-zinc-900 p-0"><Image src={close_icon} alt="close_button" className="h-6 w-6" /></Button>
+                                            </DrawerClose>
+                                        </DrawerHeader>
+                                        <div className="flex flex-col gap-4 p-4">
+                                            <div className="flex flex-col gap-2">
+                                                <p className="md:text-lg text-sm text-white opacity-70">Amount</p>
+                                                <div className="flex flex-row gap-2 justify-between items-center">
+                                                    <div className="flex flex-row justify-between border-[1px] border-[#2E2E2E] rounded-lg bg-zinc-900 p-2 flex-[9]">
+                                                        <input className="bg-zinc-900 w-full outline-none" />
+                                                        <div className="px-4 flex flex-row items-center gap-2">
+                                                            <Image src={tomi_icon} alt="logo" className="w-2 h-2"></Image>
+                                                            <span className="text-xs md:text-sm text-white opacity-70">
+                                                                TOMI
+                                                            </span>
                                                         </div>
-                                                        <div className="flex-[1] text-sm">Max</div>
                                                     </div>
-                                                    <p className="md:text-lg text-sm text-white opacity-70">Balance 0 TOMI</p>
+                                                    <div className="flex-[1] text-sm">Max</div>
                                                 </div>
-                                                <div className="flex flex-col gap-2">
-                                                    <p className="md:text-lg text-sm text-white opacity-70">To</p>
-                                                    <input className="bg-zinc-900 border-[#2E2E2E] border-[1px] w-full p-2 rounded-lg" />
-                                                    <p className="md:text-lg text-sm text-white opacity-70 underline cursor-pointer">Paste from clipboard</p>
-                                                </div>
+                                                <p className="md:text-lg text-sm text-white opacity-70">Balance 0 TOMI</p>
                                             </div>
-                                            <DrawerFooter>
-                                                <Button variant="outline" className="p-[auto] bg-[#FF0083] md:text-sm text-xs rounded-full h-[40px] border-[#FF0083] border-[1px]" onClick={nextPage}>Proceed</Button>
-                                            </DrawerFooter>
+                                            <div className="flex flex-col gap-2">
+                                                <p className="md:text-lg text-sm text-white opacity-70">To</p>
+                                                <input className="bg-zinc-900 border-[#2E2E2E] border-[1px] w-full p-2 rounded-lg" />
+                                                <p className="md:text-lg text-sm text-white opacity-70 underline cursor-pointer">Paste from clipboard</p>
+                                            </div>
                                         </div>
-                                    
+                                        <DrawerFooter>
+                                            <Button variant="outline" className="p-[auto] bg-[#FF0083] md:text-sm text-xs rounded-full h-[40px] border-[#FF0083] border-[1px]" onClick={nextPage}>Proceed</Button>
+                                        </DrawerFooter>
+                                    </div>
+
                                 </DrawerContent>
                             </Drawer>
                         </div>

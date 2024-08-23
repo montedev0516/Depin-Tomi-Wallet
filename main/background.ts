@@ -59,10 +59,13 @@ if (isProd) {
     await mainWindow.loadURL(`http://localhost:${port}`)
     mainWindow.webContents.openDevTools()
   }
+
+  
 // ----------------------------------------------Minimize IPC--------------------------------------------
   ipcMain.on('minimize',(event,arg) => {
     arg === true && mainWindow.minimize()
   })
+})()
   
   ipcMain.handle('open-external-browser-url', async (event, url) => {
     console.log("Received url from renderer:", url);
@@ -74,18 +77,33 @@ if (isProd) {
 
   // --------------------------------------------Com Data IPC----------------------------------
   ipcMain.on('getData', async (event, arg) => {
-    let hd;
-    await sys.diskLayout().then(async (data) => {
-      hd = String(Math.ceil(data[0].size / 1024 / 1024 / 1024 / 1024) + "TB")
+    let totalHd = 0, remainHd = 0;
+    await sys.fsSize().then(datas => {
+      for(const data of datas) {
+        totalHd += data.size;
+        remainHd += data.size - data.used;
+      }
     })
     event.sender.send("getData", {
       cpu: `${os.cpus()[0].model} ${os.cpus().length} Cores`,
-      ram: `${Math.ceil(os.totalmem() / 1024 / 1024 / 1024)}GB`,
-      hd: hd
+      ram: Math.ceil(os.totalmem() / 1024 / 1024 / 1024),
+      totalHd: Math.ceil(totalHd / 1024 ** 4),
+      remainHd: remainHd / 1024 ** 4
     })
 
   });
-
+//   (async () => {
+//     sys.fsSize().then(datas => {
+//       let size = 0;
+//       for(const data of datas) {
+//         size += data.size - data.used;
+//       }
+//       console.log("hdhdhd", Math.ceil(size / 1024**3), "GB")
+//     })
+//     // sys.networkConnections().then(data => console.log("adf",data));
+      
+      
+// })()
   // ------------------------------------------Net Information IPC-----------------------------------------
   let interval:any;
   ipcMain.on('getNetInfo', async (event, arg) => {
@@ -116,7 +134,7 @@ if (isProd) {
   }
   else clearInterval(interval);
   })
-})()
+
 
 // ----------------------------------------------Location IPC---------------------------------------------------
 
@@ -127,7 +145,7 @@ ipcMain.on('getLocation', async(event, arg) => {
   const ipAddress = networkInterface[0].ip4;
   const result:any = await profile.getUseCase("IpGeolocation").perform(
       {
-        ipAddress: "45.250.255.140"
+        ipAddress: ipAddress
       },
       {
         provider: "ipdata",
@@ -140,31 +158,6 @@ ipcMain.on('getLocation', async(event, arg) => {
     ).then((data) => data.unwrap());
     event.sender.send("getLocation", result.addressCountry)
 });
-
-
-// ----------------------------------------------Location IPC---------------------------------------------------
-
-ipcMain.on('getLocation', async(event, arg) => {
-  const sdk = new SuperfaceClient();
-  const profile =  await sdk.getProfile("address/ip-geolocation@1.0.1");
-  const networkInterface:any = await sys.networkInterfaces()
-  const ipAddress = networkInterface[0].ip4;
-  const result:any = await profile.getUseCase("IpGeolocation").perform(
-      {
-        ipAddress: "45.250.255.140"
-      },
-      {
-        provider: "ipdata",
-        security: {
-          apikey: {
-            apikey: "9a511b6fc8334e1852cfbbd4ff3f1af3c42ed6abc75e96a1648b969a"
-          }
-        }
-      }
-    ).then((data) => data.unwrap());
-    event.sender.send("getLocation", result.addressCountry)
-});
-
 
 ipcMain.handle("getWalletInfo", async (event) => {
   const address = new_store.get("address");
@@ -190,12 +183,12 @@ if (!gotTheLock) {
           const params = url.parse(str, true).query;
           if (params && params.address) {
             console.log("====> ", params.address)
-            new_store.delete("address")
-            new_store.delete("amount")
-            new_store.delete("symbol")
-            new_store.set("address", params.address);
-            new_store.set("amount", params.amount);
-            new_store.set("stymbol", params.stymbol);
+            // new_store.delete("address")
+            // new_store.delete("amount")
+            // new_store.delete("symbol")
+            // new_store.set("address", params.address);
+            // new_store.set("amount", params.amount);
+            // new_store.set("stymbol", params.stymbol);
             mainUIWindow.webContents.send("receiveCode", params.address);
           }
         }

@@ -13,6 +13,9 @@ const inter = Inter({
   variable: "--font-sans",
 })
 
+const LocalStorageMock = require('localstorage-mock/jest');
+global.localStorage = new LocalStorageMock();
+
 export const metadata = {
   title: "Tomi-Depin-Node",
   description: "Tomi Depin",

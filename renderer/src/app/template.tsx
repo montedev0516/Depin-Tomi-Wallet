@@ -1,4 +1,7 @@
 'use client'
+
+import { useEffect } from "react";
+
 const Template = ({
   children,
 }: {
@@ -8,6 +11,9 @@ const Template = ({
   const minimizeWindow = () => {
     window.ipc.send('minimize', true);
   }
+  useEffect(() => {
+    if (window.closed) localStorage.clear();
+  })
   return <>
     <div className="container rounded-t-2xl " id="header">
       <div className="titlebar flex flex-row" style={{ float: "right" }}>

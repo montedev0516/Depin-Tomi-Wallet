@@ -19,7 +19,8 @@ const checkData = () => {
         operatingSystem: '',
         cpu: '',
         ram: '',
-        hd: '',
+        totalHd: '',
+        remainHd: '',
         gpu: '',
         networkSpeed: '',
         location: ''
@@ -29,10 +30,19 @@ const checkData = () => {
 
     const router = useRouter();
 
-    const nextStatus = () => {
+    const nextStatus = async () => {
         if (pageStatus === 'gather') {
             setPageStatus('info');
         } else if (pageStatus === 'info') {
+            localStorage.setItem("currentDate", gatherData.currentDate)
+            localStorage.setItem("operatingSystem", gatherData.operatingSystem)
+            localStorage.setItem("cpu", gatherData.cpu)
+            localStorage.setItem("ram", gatherData.ram)
+            localStorage.setItem("totalHd", gatherData.totalHd)
+            localStorage.setItem("remainHd", gatherData.remainHd)
+            localStorage.setItem("gpu", gatherData.gpu)
+            localStorage.setItem("networkSpeed", gatherData.networkSpeed)
+            localStorage.setItem("location", gatherData.location)
             router.push('/SetStorage')
         }
     }
@@ -124,18 +134,19 @@ const checkData = () => {
         return true
     }
     const getDataInfo = async () => {
-        const getDataPromise = new Promise<{ hd: string; cpu: string; ram: string }>((resolve) => {
+        const getDataPromise = new Promise<{ totalHd: string; remainHd: string; cpu: string; ram: string }>((resolve) => {
             window.ipc.send("getData", true);
             window.ipc.on('getData', (arg: any) => {
                 resolve({
-                    hd: arg.hd,
+                    totalHd: arg.totalHd,
+                    remainHd: arg.remainHd,
                     cpu: arg.cpu,
                     ram: arg.ram
                 })
             })
         })
-        const { hd, cpu, ram } = await getDataPromise
-        setGatherData(data => ({ ...data, hd: hd, cpu: cpu, ram: ram }))
+        const { totalHd, remainHd, cpu, ram } = await getDataPromise
+        setGatherData(data => ({ ...data, totalHd: totalHd, remainHd: remainHd, cpu: cpu, ram: ram }))
         updateProgressBar(12.5 * 3);
         return true
     }
@@ -194,10 +205,12 @@ const checkData = () => {
             snap: { textContent: 1 },
         });
         progress += addition;
-        if (progress === 100) setTimeout(() => setPageStatus('info'), 4000)
+        if (progress === 100) {
+            setTimeout(() => setPageStatus('info'), 4000);
+        }
     }
     const getComDatas = async () => {
-        const steps = [getCurrentDate, getOperatingSystem, getDataInfo, getGpuInfo, getNetInfo, getLocation]
+        const steps = [getCurrentDate, getOperatingSystem, getNetInfo, getDataInfo, getGpuInfo, getLocation]
         for (const step of steps) {
             if (await step()) {
                 continue;
@@ -257,9 +270,9 @@ const checkData = () => {
                                     <div>{gatherData.currentDate}</div>
                                     <div>{gatherData.operatingSystem}</div>
                                     <div>{gatherData.cpu}</div>
-                                    <div>{gatherData.ram}</div>
-                                    <div>{gatherData.hd}</div>
-                                    <div>{gatherData.gpu}</div>
+                                    <div>{gatherData.ram} GB</div>
+                                    <div>{gatherData.totalHd} TB</div>
+                                    <div className="capitalize">{gatherData.gpu}</div>
                                     <div>{gatherData.networkSpeed}</div>
                                     <div>{gatherData.location}</div>
                                 </div>
@@ -267,11 +280,10 @@ const checkData = () => {
                         </div>
                 }
                 <div className="flex justify-center items-center mt-10">
-                    <button className="bg-[#FF0083] py-2 px-12 rounded-full text-sm" onClick={nextStatus}>
+                    <button className={`${pageStatus === "gather" && "opacity-0"} bg-[#FF0083] py-2 px-12 rounded-full text-sm`} disabled={pageStatus === "gather" && true} onClick={nextStatus}>
                         Save
                     </button>
                 </div>
-                {/* () => nextStatus('info') */}
             </div >
         </>
     )

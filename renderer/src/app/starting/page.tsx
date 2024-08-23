@@ -6,28 +6,23 @@ import Image from "next/image";
 import { useEffect } from "react";
 import StartLogo from "@/components/ui/StartLogo";
 
-declare global {
-    interface Window {
-        walletConnect : any
-    }
-}
-
-const { walletConnect } = window
-
 const StartingPage = () => {
     const router = useRouter();
 
     const nextPage = async () => {
-        await walletConnect.openURL("http://localhost:8888/ConnectWallet")
-        const {address, amount, symbol} = await walletConnect.ipcRenderer.invoke('getWalletInfo');
+        await window.walletConnect.openURL("http://localhost:8888/ConnectWallet")
+        const { address, amount, symbol } = await window.walletConnect.ipcRenderer.invoke('getWalletInfo');
         console.log(address, amount, symbol)
-        // await walletConnect.receiveCode(async ({ event, code }: { event: any, code: any }) => {
-        //     console.log("code", code)
-            
-        //     // if (address) {
-        //     //     router.replace("/RunCheck");
-        //     // }
-        // })
+        await window.walletConnect.receiveCode(async ({ event, code }: { event: any, code: any }) => {
+            console.log("code", code)
+
+            if (address) {
+                localStorage.setItem("address", address);
+                localStorage.setItem("amount", amount);
+                localStorage.setItem("symbol", symbol);
+                router.replace("/RunCheck");
+            }
+        })
         // router.push('/ConnectWallet')
     }
     const checkRAM = () => {
