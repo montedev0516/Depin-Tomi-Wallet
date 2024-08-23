@@ -5,6 +5,7 @@ import { createWindow } from './helpers'
 import os from 'os'
 import sys from 'systeminformation'
 import Store from 'electron-store'
+import url from 'url'
 
 const isProd = process.env.NODE_ENV === 'production'
 let new_store = new Store();
@@ -48,7 +49,7 @@ if (isProd) {
   })
 
   mainUIWindow = mainWindow;
-  
+
   if (isProd) {
     await mainWindow.loadURL('app://./home')
   } else {
@@ -83,12 +84,19 @@ if (isProd) {
   })
 })()
 
+ipcMain.handle("getWalletInfo", async (event) => {
+  const address = new_store.get("address");
+  const amount = new_store.get("amount");
+  const symbol = new_store.get("symbol");
+  return {address, amount, symbol};
+});
+
 const gotTheLock = app.requestSingleInstanceLock();
+const ProtocolRegExp = new RegExp(`^${protocol}://`);
 
 if (!gotTheLock) {
   app.quit();
 } else {
-  console.log("Test================>")
   app.on("second-instance", (event, commandLine, workingDirectory) => {
     console.log(commandLine)
     if (mainUIWindow) {
@@ -96,8 +104,19 @@ if (!gotTheLock) {
       if (mainUIWindow.isMinimized()) mainUIWindow.restore();
       mainUIWindow.focus();
       commandLine.forEach((str) => {
-        new_store.set("mirada_code", 123);
-        mainUIWindow.webContents.send("receiveCode", 123);
+        if (ProtocolRegExp.test(str)) {
+          const params = url.parse(str, true).query;
+          if (params && params.address) {
+            console.log("====> ", params.address)
+            new_store.delete("address")
+            new_store.delete("amount")
+            new_store.delete("symbol")
+            new_store.set("address", params.address);
+            new_store.set("amount", params.amount);
+            new_store.set("stymbol", params.stymbol);
+            mainUIWindow.webContents.send("receiveCode", params.address);
+          }
+        }
       });
     }
   });

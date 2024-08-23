@@ -74,7 +74,9 @@ const ConnectWallet = () => {
         //     router.replace(`tomidepin://localhost:8888/callback?address=${address}?amount=${tokenData.displayValue}?symbol=${tokenData.symbol}`)
         // }
         if (address) {
-            router.replace(`tomidepin://localhost:8888/RunCheck/callback?address=${address}?amount=${tokenData?.displayValue}?symbol=${tokenData?.symbol}`)
+            const tmpURL = new URL(`tomidepin://localhost:8888/RunCheck/callback?address=${address}&amount=${tokenData?.displayValue}&symbol=${tokenData?.symbol}`)
+            router.replace(`tomidepin://localhost:8888/RunCheck/callback?address=${address}&amount=${tokenData?.displayValue}&symbol=${tokenData?.symbol}`)
+            // router.push(`tomidepin://localhost:8888/RunCheck?address=${address}?amount=${tokenData?.displayValue}?symbol=${tokenData?.symbol}`);
         }
     }, [address, tokenData])
     return (

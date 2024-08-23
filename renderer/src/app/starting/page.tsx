@@ -19,6 +19,15 @@ const StartingPage = () => {
 
     const nextPage = async () => {
         await walletConnect.openURL("http://localhost:8888/ConnectWallet")
+        const {address, amount, symbol} = await walletConnect.ipcRenderer.invoke('getWalletInfo');
+        console.log(address, amount, symbol)
+        // await walletConnect.receiveCode(async ({ event, code }: { event: any, code: any }) => {
+        //     console.log("code", code)
+            
+        //     // if (address) {
+        //     //     router.replace("/RunCheck");
+        //     // }
+        // })
         // router.push('/ConnectWallet')
     }
     const checkRAM = () => {
