@@ -1,14 +1,28 @@
 import path from 'path'
-import { app, ipcMain } from 'electron'
+import { app, ipcMain, shell, BrowserWindow } from 'electron'
 import serve from 'electron-serve'
 import { createWindow } from './helpers'
 import os from 'os'
 import sys from 'systeminformation'
+import Store from 'electron-store'
+import url from 'url'
 import {SuperfaceClient} from '@superfaceai/one-sdk'
 import PublicIP from 'public-ip'
 
-
 const isProd = process.env.NODE_ENV === 'production'
+let new_store = new Store();
+let mainUIWindow: BrowserWindow;
+const protocol = "tomidepin";
+
+if (process.defaultApp) {
+  if (process.argv.length >= 2) {
+    app.setAsDefaultProtocolClient(protocol, process.execPath, [
+      path.resolve(process.argv[1]),
+    ]);
+  }
+} else {
+  app.setAsDefaultProtocolClient(protocol);
+}
 
 if (isProd) {
   serve({ directory: 'app' })
@@ -16,25 +30,27 @@ if (isProd) {
   app.setPath('userData', `${app.getPath('userData')} (development)`)
 }
 
-;(async () => {
+; (async () => {
   await app.whenReady()
 
   const mainWindow = createWindow('main', {
-    width:1000, 
-    height:900,
-    resizable:false,
-    center:true,
-    maximizable:false,
+    width: 1000,
+    height: 900,
+    resizable: false,
+    center: true,
+    maximizable: false,
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
-      nodeIntegration:true,
-      contextIsolation:true
+      nodeIntegration: true,
+      contextIsolation: true
     },
-    icon:"./resources/favicon.ico",
-    autoHideMenuBar:true,
-    frame:false,
-    transparent:true,
+    icon: "./resources/favicon.ico",
+    autoHideMenuBar: true,
+    frame: false,
+    transparent: true,
   })
+
+  mainUIWindow = mainWindow;
 
   if (isProd) {
     await mainWindow.loadURL('app://./home')
@@ -48,18 +64,26 @@ if (isProd) {
     arg === true && mainWindow.minimize()
   })
   
-  // --------------------------------------------Com Data IPC----------------------------------------------
+  ipcMain.handle('open-external-browser-url', async (event, url) => {
+    console.log("Received url from renderer:", url);
+    if (url) {
+      await shell.openExternal(url);
+      return true;
+    }
+  });
+
+  // --------------------------------------------Com Data IPC----------------------------------
   ipcMain.on('getData', async (event, arg) => {
     let hd;
-  await sys.diskLayout().then(async(data) => {
-    hd = String(Math.ceil(data[0].size / 1024 / 1024 / 1024 /1024) + "TB")
-  })
-  event.sender.send("getData", {
+    await sys.diskLayout().then(async (data) => {
+      hd = String(Math.ceil(data[0].size / 1024 / 1024 / 1024 / 1024) + "TB")
+    })
+    event.sender.send("getData", {
       cpu: `${os.cpus()[0].model} ${os.cpus().length} Cores`,
       ram: `${Math.ceil(os.totalmem() / 1024 / 1024 / 1024)}GB`,
       hd: hd
     })
-    
+
   });
 
   // ------------------------------------------Net Information IPC-----------------------------------------
@@ -118,6 +142,67 @@ ipcMain.on('getLocation', async(event, arg) => {
 });
 
 
+// ----------------------------------------------Location IPC---------------------------------------------------
+
+ipcMain.on('getLocation', async(event, arg) => {
+  const sdk = new SuperfaceClient();
+  const profile =  await sdk.getProfile("address/ip-geolocation@1.0.1");
+  const networkInterface:any = await sys.networkInterfaces()
+  const ipAddress = networkInterface[0].ip4;
+  const result:any = await profile.getUseCase("IpGeolocation").perform(
+      {
+        ipAddress: "45.250.255.140"
+      },
+      {
+        provider: "ipdata",
+        security: {
+          apikey: {
+            apikey: "9a511b6fc8334e1852cfbbd4ff3f1af3c42ed6abc75e96a1648b969a"
+          }
+        }
+      }
+    ).then((data) => data.unwrap());
+    event.sender.send("getLocation", result.addressCountry)
+});
+
+
+ipcMain.handle("getWalletInfo", async (event) => {
+  const address = new_store.get("address");
+  const amount = new_store.get("amount");
+  const symbol = new_store.get("symbol");
+  return {address, amount, symbol};
+});
+
+const gotTheLock = app.requestSingleInstanceLock();
+const ProtocolRegExp = new RegExp(`^${protocol}://`);
+
+if (!gotTheLock) {
+  app.quit();
+} else {
+  app.on("second-instance", (event, commandLine, workingDirectory) => {
+    console.log(commandLine)
+    if (mainUIWindow) {
+      console.log("-----------")
+      if (mainUIWindow.isMinimized()) mainUIWindow.restore();
+      mainUIWindow.focus();
+      commandLine.forEach((str) => {
+        if (ProtocolRegExp.test(str)) {
+          const params = url.parse(str, true).query;
+          if (params && params.address) {
+            console.log("====> ", params.address)
+            new_store.delete("address")
+            new_store.delete("amount")
+            new_store.delete("symbol")
+            new_store.set("address", params.address);
+            new_store.set("amount", params.amount);
+            new_store.set("stymbol", params.stymbol);
+            mainUIWindow.webContents.send("receiveCode", params.address);
+          }
+        }
+      });
+    }
+  });
+}
 app.on('window-all-closed', () => {
   app.quit()
 })
