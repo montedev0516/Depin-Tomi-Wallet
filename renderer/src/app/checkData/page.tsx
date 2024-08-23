@@ -9,22 +9,8 @@ import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
 import { getGPUTier } from 'detect-gpu';
 import gsap from 'gsap'
-// import { check } from "diskusage";
-// import * as si from 'systeminformation';
-import { ipcRenderer } from "electron"
 import { string } from "zod"
-// import * as drivelist from 'drivelist';
-// const FastSpeedtest = require("fast-speedtest-api");
-interface ComData {
-    currentDate: string,
-    operatingSystem: string,
-    cpu: string,
-    ram: string,
-    hd: string,
-    gpu: string,
-    networkSpeed: string,
-    networkType: string,
-}
+
 
 const checkData = () => {
     const [pageStatus, setPageStatus] = useState('gather');

@@ -60,20 +60,34 @@ if (isProd) {
       hd: hd
     })
     
-  })
+  });
 
   // ------------------------------------------Net Information IPC-----------------------------------------
-  sys.networkStats()
   let interval:any;
   ipcMain.on('getNetInfo', async (event, arg) => {
     if(arg === true){
-      sys.networkStats().then((data: any) => {
-        const downloadSpeed = (data[0].rx_sec / 1024).toFixed(2);
-        const uploadSpeed = (data[0].tx_sec / 1024).toFixed(2);
-        event.sender.send("getNetInfo", {
-          downloadSpeed:`${downloadSpeed} MB/s`,
-          uploadSpeed:`${uploadSpeed} MB/s`
+      const downloadSpeeds:number[] = [], uploadSpeeds:number[] = [];
+      let times = 1;
+      while(times++ <= 10){
+        await sys.networkStats().then((data: any) => {
+          const downloadSpeed = (data[0].rx_sec / 1024);
+          const uploadSpeed = (data[0].tx_sec / 1024);
+          downloadSpeeds.push(downloadSpeed);
+          uploadSpeeds.push(uploadSpeed);
         })
+      }
+      const calculateAverage = (array:number[]): number =>  {
+        if (array.length === 0) {
+            return 0; 
+        }
+        const total = array.reduce((accumulator, currentValue) => accumulator + currentValue, 0)
+        const average = total / array.length; 
+        return average;
+      }
+      
+      event.sender.send("getNetInfo", {
+        downloadSpeed:`${calculateAverage(downloadSpeeds).toFixed(2)} KB/s`,
+        uploadSpeed:`${calculateAverage(uploadSpeeds).toFixed(2)} KB/s`
       })
   }
   else clearInterval(interval);

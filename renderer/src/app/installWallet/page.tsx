@@ -2,11 +2,21 @@
 import Mobile from "../../assets/images/mobile.svg"
 import Scanner from "../../assets/images/scanner.svg"
 import Frame from "../../assets/images/Frame.png"
+import MetamaskQR from "@/assets/images/MetamaskQR.png";
+import chrome from "@/assets/images/chrome.svg";
 import Image from "next/image"
+import Link from "next/link";
 
 import { useRouter } from "next/navigation"
+import { useEffect, useState } from "react";
 
 const RunCheck = () => {
+    const [walletType, setWalletType] = useState("");
+    useEffect(() => {
+        const tmpType = localStorage.getItem("installWallet");
+        console.log("type------> ", tmpType);
+        if (tmpType) setWalletType(tmpType);
+    }, [])
     const router = useRouter();
 
     const nextPage = () => {
@@ -29,7 +39,22 @@ const RunCheck = () => {
                     </div>
                 </div>
                 <div onClick={nextPage}>
+<<<<<<< HEAD:renderer/src/app/checkStart/page.tsx
                     <Image src={Frame} alt="" className="w-[320px] md:w-[400px]" />
+=======
+                    {
+                        walletType === "metamask" ?
+                            <Image src={MetamaskQR} alt="meatmaskQR" className="w-[320px] md:w-[400px] rounded-xl" />
+                            :
+                            <Image src={Frame} alt="" className="w-[320px] md:w-[400px]" />
+                    }
+                </div>
+                <div className="flex flex-row gap-4 items-center bg-[#171717] p-2 px-4 rounded-md cursor-pointer">
+                    <Image src={chrome} alt="chrome" />
+                    <Link href={"https://chrome.google.com/webstore/detail/metamask/nkbihfbeogaeaoehlefnkodbefgpgknn"} target="_blank">
+                        Download Chrome Extension
+                    </Link>
+>>>>>>> dcdab11a77f8f6be3315339979887b87e87cb464:renderer/src/app/installWallet/page.tsx
                 </div>
             </div>
         </>
