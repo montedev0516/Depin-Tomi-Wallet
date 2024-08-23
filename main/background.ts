@@ -108,12 +108,12 @@ if (!gotTheLock) {
           const params = url.parse(str, true).query;
           if (params && params.address) {
             console.log("====> ", params.address)
-            new_store.delete("address")
-            new_store.delete("amount")
-            new_store.delete("symbol")
-            new_store.set("address", params.address);
-            new_store.set("amount", params.amount);
-            new_store.set("stymbol", params.stymbol);
+            // new_store.delete("address")
+            // new_store.delete("amount")
+            // new_store.delete("symbol")
+            // new_store.set("address", params.address);
+            // new_store.set("amount", params.amount);
+            // new_store.set("stymbol", params.stymbol);
             mainUIWindow.webContents.send("receiveCode", params.address);
           }
         }
