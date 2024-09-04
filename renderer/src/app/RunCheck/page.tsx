@@ -10,6 +10,44 @@ const ConnectScan = () => {
     const nextPage = () => {
         router.push('/checkData')
     }
+    const skipPage = async () => {
+        try {
+            const token = localStorage.getItem("token");
+            const address = localStorage.getItem("address")
+            const response = await fetch(`http://localhost:5000/api/check/skip/${address}`, {
+                method: 'GET', // Specify the method as POST
+                credentials: 'include', // Include cookies in the request
+                headers: {
+                    'Content-Type': 'application/json', // Set the content type
+                    'Authorization': `Bearer ${token}`,
+                },
+            });
+
+            // Check if the response is OK (status in the range 200-299)
+            // if (!response.ok) {
+            //     throw new Error(`HTTP error! Status: ${response.status}`);
+            // }
+            if (response.status === 200) {
+                router.push("/WithDraw")
+                const data = await response.json();
+                const comData = data.comData;
+                localStorage.setItem("currentDate", comData.currentDate)
+                localStorage.setItem("operatingSystem", comData.operatingSystem)
+                localStorage.setItem("cpu", comData.cpu)
+                localStorage.setItem("ram", comData.ram)
+                localStorage.setItem("totalHd", comData.totalHd)
+                localStorage.setItem("remainHd", comData.remainHd)
+                localStorage.setItem("gpu", comData.gpu)
+                localStorage.setItem("networkSpeed", comData.networkSpeed)
+                localStorage.setItem("location", comData.location)
+            }
+            else if (response.status === 301) router.push("/");
+            else if (response.status === 302) router.push("/checkData");
+
+        } catch (error) {
+            console.error('Error during fetch:', error);
+        }
+    }
     return (
         <>
             <div className="flex flex-col items-center bg-transparent h-screen md:gap-12 gap-4 justify-center">
@@ -27,7 +65,7 @@ const ConnectScan = () => {
                 </div>
                 <div className="flex flex-row gap-4 flex-wrap justify-center">
                     <button className="px-8 py-1 border-[1px] border-[#FF0083] rounded-[100px] md:text-2xl text-lg hover:bg-[#FF0083]" onClick={nextPage}>Start</button>
-                    <button className="px-8 py-1 border-[1px] border-[#FF0083] rounded-[100px] md:text-2xl text-lg hover:bg-[#FF0083]" onClick={nextPage}>Skip</button>
+                    <button className="px-8 py-1 border-[1px] border-[#FF0083] rounded-[100px] md:text-2xl text-lg hover:bg-[#FF0083]" onClick={skipPage}>Skip</button>
                 </div>
             </div>
         </>

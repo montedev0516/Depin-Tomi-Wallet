@@ -13,20 +13,18 @@ const inter = Inter({
   variable: "--font-sans",
 })
 
-const LocalStorageMock = require('localstorage-mock/jest');
-global.localStorage = new LocalStorageMock();
-
 export const metadata = {
   title: "Tomi-Depin-Node",
   description: "Tomi Depin",
   icons: [{ rel: "icon", url: "/favicon.ico" }],
 }
 
-export default function RootLayout({
+function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+
   return (
     <html lang="en">
       <body className={`font-sans ${inter.variable} bg-transparent text-white relative`}>
@@ -40,3 +38,5 @@ export default function RootLayout({
     </html>
   )
 }
+
+export default RootLayout

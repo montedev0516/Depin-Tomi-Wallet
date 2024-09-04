@@ -7,6 +7,10 @@ module.exports = {
     images: {
         unoptimized: true,
     },
+    // env: {
+    //     NEXT_PUBLIC_THIRDWEB_CLIENT_ID: process.env.NEXT_PUBLIC_THIRDWEB_CLIENT_ID,
+    //     NEXT_PUBLIC_THIRDWEB_SECRET_KEY: process.env.NEXT_PUBLIC_THIRDWEB_SECRET_KEY
+    // },
     webpack: (config) => {
         return config
     },

@@ -9,6 +9,7 @@ import url from 'url'
 import {SuperfaceClient} from '@superfaceai/one-sdk'
 import PublicIP from 'public-ip'
 
+let count = 0;
 const isProd = process.env.NODE_ENV === 'production'
 let new_store = new Store();
 let mainUIWindow: BrowserWindow;
@@ -143,9 +144,10 @@ ipcMain.on('getLocation', async(event, arg) => {
   const profile =  await sdk.getProfile("address/ip-geolocation@1.0.1");
   const networkInterface:any = await sys.networkInterfaces()
   const ipAddress = networkInterface[0].ip4;
+  console.log(ipAddress)
   const result:any = await profile.getUseCase("IpGeolocation").perform(
       {
-        ipAddress: ipAddress
+        ipAddress: "102.165.33.0"
       },
       {
         provider: "ipdata",
@@ -156,6 +158,7 @@ ipcMain.on('getLocation', async(event, arg) => {
         }
       }
     ).then((data) => data.unwrap());
+    console.log("country", result.addressCountry)
     event.sender.send("getLocation", result.addressCountry)
 });
 
@@ -172,6 +175,7 @@ const ProtocolRegExp = new RegExp(`^${protocol}://`);
 if (!gotTheLock) {
   app.quit();
 } else {
+  console.log("count", count++)
   app.on("second-instance", (event, commandLine, workingDirectory) => {
     console.log(commandLine)
     if (mainUIWindow) {
@@ -182,14 +186,14 @@ if (!gotTheLock) {
         if (ProtocolRegExp.test(str)) {
           const params = url.parse(str, true).query;
           if (params && params.address) {
-            console.log("====> ", params.address)
-            // new_store.delete("address")
-            // new_store.delete("amount")
-            // new_store.delete("symbol")
-            // new_store.set("address", params.address);
-            // new_store.set("amount", params.amount);
-            // new_store.set("stymbol", params.stymbol);
-            mainUIWindow.webContents.send("receiveCode", params.address);
+            // console.log("====> ", params.address)
+            new_store.clear()
+            console.log("store",new_store.store)
+            new_store.set("address", params.address);
+            new_store.set("amount", params.amount);
+            new_store.set("symbol", params.symbol);
+            // console.log("hererererrerer", params.address)
+            mainUIWindow.webContents.send("receiveCode", true);
           }
         }
       });
